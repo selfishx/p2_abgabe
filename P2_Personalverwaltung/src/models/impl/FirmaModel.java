@@ -49,12 +49,12 @@ public class FirmaModel extends AbstractModel {
 	 * Fügt der Firma einen Angestellten als PatientModel-Objekt hinzu.
 	 * Alle angemeldeten Listener werden über die Änderung informiert.
 	 * 
-	 * @param patient Neuer Patient der Firma
+	 * @param angestellter Neuer Patient der Firma
 	 */
-	public void addAngestellter(AngestellterModel patient) {
-		this.angestellte.add(patient);
+	public void addAngestellter(AngestellterModel angestellter) {
+		this.angestellte.add(angestellter);
 		setChanged();
-		this.notifyObservers(new FirmaAngestellterEvent(EventType.ADD, patient));
+		this.notifyObservers(new FirmaAngestellterEvent(EventType.ADD, angestellter));
 		setDirty(true);
 	}
 	
