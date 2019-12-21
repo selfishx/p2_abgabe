@@ -160,17 +160,16 @@ public class FirmaModel extends AbstractModel {
 	 * Entfernt einen spezifischen Angestellten aus der
 	 * Liste aller Angestellten.
 	 * 
-	 * @param nummerPatient Nr des Angestellten
+	 * @param nummerAngestellter Nr des Angestellten
 	 */
-	public void removePatient(int nummerPatient) {
+	public void removeAngestellter(int nummerAngestellter) {
 		for (int i = this.angestellte.size()-1; i>=0; i--) {
 			//Wenn der Patient gefunden wurde,
 			//informiere die Listener über die Änderung
 			//und entferne dann den Angestellten
-			if (this.angestellte.get(i).getNr() == nummerPatient) {
+			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
 				setChanged();
-				this.notifyObservers(new FirmaAngestellterEvent(EventType.REMOVE, 
-						this.angestellte.get(i)));
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.REMOVE, this.angestellte.get(i)));
 				this.angestellte.remove(i);
 				setDirty(true);
 				return;
