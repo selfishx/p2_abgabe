@@ -15,13 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import models.impl.PatientModel;
-import models.impl.PraxisModel;
-import views.impl.PraxisView;
+import models.impl.AngestellterModel;
+import models.impl.FirmaModel;
+import views.impl.FirmaView;
 import controller.AbstractController;
 
 /**
- * Diese Klasse repräsentiert die Logik der Praxis. Alle Aktivitäten innerhalb
+ * Diese Klasse repräsentiert die Logik der Firma. Alle Aktivitäten innerhalb
  * der Software werden durch diese Klasse delegiert. Interaktionen des Benutzers
  * mit der grafischen Benutzeroberfläche (View) führen zu Methodenaufrufen in
  * dieser Klasse.
@@ -30,28 +30,28 @@ import controller.AbstractController;
  * @version 1.0
  *
  */
-public class PraxisController extends AbstractController implements ActionListener {
+public class FirmaController extends AbstractController implements ActionListener {
 
-	// Verweis auf das Hauptfenster, die PraxisView
-	private final PraxisView praxisView;
+	// Verweis auf das Hauptfenster, die FirmaView
+	private final FirmaView firmaView;
 	
 
 	// Verweis auf das zugrundeliegende Model
-	private PraxisModel praxisModel;
+	private FirmaModel firmaModel;
 
 	
 	/**
 	 * Konstruktor des Controller. Es werden das Model und die View dem
 	 * Controller als Parameter übergeben. Der Controller setzt sich innerhalb
-	 * der View mittels der Funktion PraxisView.setController als
+	 * der View mittels der Funktion FirmaView.setController als
 	 * Verantwortlicher für die auszuführende Logik.
 	 * 
-	 * @param praxis		Model
-	 * @param praxisView	View
+	 * @param firma		Model
+	 * @param firmaView	View
 	 */
-	public PraxisController(PraxisModel praxis, PraxisView praxisView) {
-		this.praxisModel = praxis; 
-		this.praxisView = praxisView;
+	public FirmaController(FirmaModel firma, FirmaView firmaView) {
+		this.firmaModel = firma; 
+		this.firmaView = firmaView;
 	}
 
 	
@@ -68,7 +68,7 @@ public class PraxisController extends AbstractController implements ActionListen
 	public void actionPerformed(ActionEvent event) {
 		String actionCommand = event.getActionCommand();
 
-		if (this.praxisView != null && actionCommand == this.praxisView.getBtnDateiLaden().getText()) {
+		if (this.firmaView != null && actionCommand == this.firmaView.getBtnDateiLaden().getText()) {
 			File datei = oeffneDateiDialog(0);
 			if (datei != null) {
 				resetFenster();
@@ -84,12 +84,12 @@ public class PraxisController extends AbstractController implements ActionListen
 			}
 		}
 
-		if (this.praxisView != null && actionCommand == this.praxisView.getBtnSpeichern().getText() && this.praxisModel.isDirty()) {
+		if (this.firmaView != null && actionCommand == this.firmaView.getBtnSpeichern().getText() && this.firmaModel.isDirty()) {
 			File datei = oeffneDateiDialog(1);
 			if (datei != null) {
 				try {
 					speichereDaten(datei);
-					this.praxisModel.setDirty(false);
+					this.firmaModel.setDirty(false);
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(new JFrame(), "Es trat ein Fehler beim Speichern der Datei auf. Abbruch!", "Fehler", 0);
 					return;
@@ -102,34 +102,34 @@ public class PraxisController extends AbstractController implements ActionListen
 	 * Setzt alle dargestellten Informationen zurück
 	 */
 	private void resetFenster() {
-		this.praxisModel.removePatienten();
-		this.praxisView.resetPatienten();
+		this.firmaModel.removeAngestellte();
+		this.firmaView.resetAngestellte();
 	}
 
 	
 	/**
 	 * Liefert das Objekt des aktuell in der GUI selektierten Patienten zurück
 	 * 
-	 * @return PatientModel
+	 * @return AngestellterModel
 	 */
-	public PatientModel getAktuellerPatient() {
-		return this.praxisView.getGewaehlterPatient();
+	public AngestellterModel getAktuellerAngestellter() {
+		return this.firmaView.getGewaehlterAngestellter();
 	}
 	
 
 	/**
-	 * Ruft die grafische Oberfläche (GUI) der PraxisView auf.
+	 * Ruft die grafische Oberfläche (GUI) der FirmaView auf.
 	 */
 	public void zeigeFenster() {
-		this.praxisView.zeigeFenster();
+		this.firmaView.zeigeFenster();
 	}
 	
 
 	/**
 	 * Liefert das zugrundeliegende Model zurück
 	 */
-	public PraxisModel getModel() {
-		return this.praxisModel;
+	public FirmaModel getModel() {
+		return this.firmaModel;
 	}
 
 	
@@ -142,9 +142,9 @@ public class PraxisController extends AbstractController implements ActionListen
 	 */
 	private void leseDaten(File datei) throws NumberFormatException, IOException {
 		String zeile = "";
-		PatientModel letzterPatient = null;
+		AngestellterModel letzterAngestellter = null;
 		
-		this.praxisModel.removePatienten();
+		this.firmaModel.removeAngestellte();
 
 		//Datei einlesen
 		BufferedReader dateiEinlesen = new BufferedReader(new FileReader(datei));
@@ -158,7 +158,7 @@ public class PraxisController extends AbstractController implements ActionListen
 			System.out.println(infos[0] + ", " + infos[1] + ", " + infos[2] + ", " + infos[3] + ", " + infos[4] + ", " + infos[5] + ", " + infos[6]);
 			
 			//Erster Eintrag muss immer "objekt" sein
-			if (infos[0].equals("patient")) {
+			if (infos[0].equals("angestellter")) {
 
 				//Jede Zeile enthält 7 Informationen
 				if (infos.length != 7) {
@@ -167,22 +167,22 @@ public class PraxisController extends AbstractController implements ActionListen
 				}
 
 				//Eingelesene Informationen in das Objekt füllen.
-				letzterPatient = new PatientModel();
+				letzterAngestellter = new AngestellterModel();
 				try {
-					letzterPatient.setNr(Integer.valueOf(infos[1]).intValue());
-					letzterPatient.setVorname(infos[2]);
-					letzterPatient.setNachname(infos[3]);
-					letzterPatient.setGeburtsdatum(infos[4]);
-					letzterPatient.setGeschlecht(Integer.valueOf(infos[5]).intValue());
-					letzterPatient.setTelefon(infos[6]);
+					letzterAngestellter.setNr(Integer.valueOf(infos[1]).intValue());
+					letzterAngestellter.setVorname(infos[2]);
+					letzterAngestellter.setNachname(infos[3]);
+					letzterAngestellter.setGeburtsdatum(infos[4]);
+					letzterAngestellter.setGeschlecht(Integer.valueOf(infos[5]).intValue());
+					letzterAngestellter.setTelefon(infos[6]);
 				} catch (Exception e) {
 					dateiEinlesen.close();
 					throw new IOException();
 				}
 				
 				//Hinzufügen des neuen Objektes zur Liste aller Objekte
-				this.praxisModel.addPatient(letzterPatient);
-				letzterPatient = null;
+				this.firmaModel.addAngestellter(letzterAngestellter);
+				letzterAngestellter = null;
 			}
 		}
 		
@@ -196,21 +196,21 @@ public class PraxisController extends AbstractController implements ActionListen
 	 * 
 	 * @param model Neues Objektmodell mit notwendigen Informationen
 	 */
-	public void patientHinzufuegen(PatientModel model) {
+	public void angestellterHinzufuegen(AngestellterModel model) {
 		
 		//Prüfen, ob ein evtl. vorhandenes Objekt aktualisiert wurde. Dann an dieser Stelle in der Liste
 		//der Modelle das neue Model einfügen
-		for (int i = 0; i < this.praxisModel.getPatientenListe().size(); i++) {
-			if (((PatientModel) this.praxisModel.getPatientenListe().get(i)).getNr() == model.getNr()) {
-				this.praxisModel.getPatientenListe().set(i, model);
-				this.praxisModel.setDirty(true);
+		for (int i = 0; i < this.firmaModel.getAngestellteListe().size(); i++) {
+			if (((AngestellterModel) this.firmaModel.getAngestellteListe().get(i)).getNr() == model.getNr()) {
+				this.firmaModel.getAngestellteListe().set(i, model);
+				this.firmaModel.setDirty(true);
 				return;
 			}
 		}
 
 		//Ansonsten neues Objekt der Liste hinzufügen
-		this.praxisModel.setDirty(true);
-		this.praxisModel.addPatient(model);
+		this.firmaModel.setDirty(true);
+		this.firmaModel.addAngestellter(model);
 	}
 
 	
@@ -260,19 +260,19 @@ public class PraxisController extends AbstractController implements ActionListen
 		String inhalt = "";
 		
 		//Liste aller Objekte
-		ArrayList<PatientModel> patienten = this.praxisModel.getPatientenListe();
+		ArrayList<AngestellterModel> angestellte = this.firmaModel.getAngestellteListe();
 
 		//Liste einzeln durchgehen und kommaspearierten String erstellen
-		for (int i = 0; i < patienten.size(); i++) {
-			PatientModel patient = (PatientModel) patienten.get(i);
+		for (int i = 0; i < angestellte.size(); i++) {
+			AngestellterModel angestellter = (AngestellterModel) angestellte.get(i);
 
-			inhalt = String.valueOf(inhalt) + "patient,";
-			inhalt = String.valueOf(inhalt) + patient.getNr() + ",";
-			inhalt = String.valueOf(inhalt) + patient.getVorname() + ",";
-			inhalt = String.valueOf(inhalt) + patient.getNachname() + ",";
-			inhalt = String.valueOf(inhalt) + patient.getGeburtsdatum() + ",";
-			inhalt = String.valueOf(inhalt) + patient.getGeschlecht() + ",";
-			inhalt = String.valueOf(inhalt) + patient.getTelefon() + "\r\n";
+			inhalt = String.valueOf(inhalt) + "angestellter,";
+			inhalt = String.valueOf(inhalt) + angestellter.getNr() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getVorname() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getNachname() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getGeburtsdatum() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getGeschlecht() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getTelefon() + "\r\n";
 
 		}
 

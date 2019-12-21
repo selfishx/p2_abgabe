@@ -6,20 +6,20 @@ import java.text.SimpleDateFormat;
 
 import models.AbstractModel;
 import events.AbstractEvent.EventType;
-import events.impl.PatientDataEvent;
+import events.impl.AngestellterDataEvent;
 
 /**
- * Diese Klasse repräsentiert einen Patienten im Programm.
- * Ein Patient enthält neben den Stammdaten auch eine Liste von Terminen.
+ * Diese Klasse repräsentiert einen Angestellten im Programm.
+ * Ein Angestellter enthält neben den Stammdaten auch eine Liste von Terminen.
  * Die Klasse stellt Methoden zum Setzen (<tt>set..</tt>) und Abfragen (<tt>get..</tt>)
- * zur Verfügung, um alle relevanten Informationen eines Patienten abbilden zu
+ * zur Verfügung, um alle relevanten Informationen eines Angestellten abbilden zu
  * können. Weiter werden Methoden zum Hinzufügen und Entfernen von Termin-Objekten ermöglicht
  * 
  * @author  Jens Sterk
  * @version 1.0
  * 
  */
-public class PatientModel extends AbstractModel {
+public class AngestellterModel extends AbstractModel {
 
 
 	@Override
@@ -29,51 +29,51 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Integer-Repräsentation für männliche Patienten
+	 * Integer-Repräsentation für männliche Angestellten
 	 */
 	public static final int MANN = 0;
 
 
 	/**
-	 * Integer-Repräsentation für weibliche Patienten
+	 * Integer-Repräsentation für weibliche Angestellten
 	 */
 	public static final int FRAU = 1;
 
 
-	//Patienten-Nr des jeweiligen Patienten
+	//Angestellten-Nr des jeweiligen Angestellten
 	private int nr;
 
 
-	//Vorname des Patienten
+	//Vorname des Angestellten
 	private String vorname;
 
 
-	//Nachname des Patienten
+	//Nachname des Angestellten
 	private String nachname;
 
 
-	//Geschlecht des Patienten
+	//Geschlecht des Angestellten
 	private int geschlecht;
 
 
-	//Geburtsdatum des Patienten
+	//Geburtsdatum des Angestellten
 	private String geburtsdatum;
 
-	//Telefonnummer des Patienten
+	//Telefonnummer des Angestellten
 	private String telefon;
 
 
 	/**
 	 * Konstruktor.
-	 * Erzeugt einen neuen Patienten mit leerer Terminliste.
+	 * Erzeugt einen neuen Angestellten mit leerer Terminliste.
 	 */
-	public PatientModel() {
+	public AngestellterModel() {
 		//nothing
 	}
 
 
 	/**
-	 * Liefert das Geburtsdatum des Patienten
+	 * Liefert das Geburtsdatum des Angestellten
 	 * 
 	 * @return Geburtsdatum
 	 */
@@ -83,7 +83,7 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Liefert das Geschlecht des Patienten
+	 * Liefert das Geschlecht des Angestellten
 	 * als Integer-Wert
 	 * 
 	 * @return 0 = Mann, 1 = Frau
@@ -96,16 +96,16 @@ public class PatientModel extends AbstractModel {
 	/**
 	 * Liefert die eigene Objektinstanz zurück
 	 * 
-	 * return PatientnModel
+	 * return AngestellterModel
 	 */
 	@Override
-	public PatientModel getInstance() {
+	public AngestellterModel getInstance() {
 		return this;
 	}
 
 
 	/**
-	 * Liefert den Nachnamen des Patienten
+	 * Liefert den Nachnamen des Angestellten
 	 * 
 	 * @return Nachname
 	 */
@@ -115,9 +115,9 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Liefert die Patientennummer
+	 * Liefert die Angestelltennnummer
 	 * 
-	 * @return Patienten-Nr
+	 * @return Angestellten-Nr
 	 */
 	public int getNr() {
 		return this.nr;
@@ -125,7 +125,7 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Liefert die Telefonnummer des Patienten
+	 * Liefert die Telefonnummer des Angestellten
 	 * 
 	 * @return Telefonnummer
 	 */
@@ -135,9 +135,9 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Liefert den Vornamen des Patienten
+	 * Liefert den Vornamen des Angestellten
 	 * 
-	 * @return Vorname des Patienten
+	 * @return Vorname des Angestellten
 	 */
 	public String getVorname() {
 		return this.vorname;
@@ -145,7 +145,7 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Setzt das Geburtsdatum des Patienten.
+	 * Setzt das Geburtsdatum des Angestellten.
 	 * Wird ein ungültiges Datum eingegeben, wird eine Exception erzeugt und zurückgeliefert.
 	 * 
 	 * @param  geburtsdatum 		 Datum im Format dd.mm.yyyy
@@ -161,12 +161,12 @@ public class PatientModel extends AbstractModel {
 			throw new NumberFormatException();
 		}
 		setChanged();
-		this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
 
 	/**
-	 * Setzt das Geschlecht des Patienten.
+	 * Setzt das Geschlecht des Angestellten.
 	 * 0 für Mann, 1 für Frau. Bei ungültiger Eingabe wird eine Exception an den Aufrufer 
 	 * zurückgeliefert.
 	 * 
@@ -180,34 +180,34 @@ public class PatientModel extends AbstractModel {
 			this.geschlecht = geschlecht;
 		}
 		setChanged();
-		this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
 
 	/**
-	 * Setzt den Nachnamen des Patienten
+	 * Setzt den Nachnamen des Angestellten
 	 * 
 	 * @param nachname Nachname
 	 */
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 		setChanged();
-		this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
 
 	/**
-	 * Setzt die Patienten-Nr.
+	 * Setzt die Angestellten-Nr.
 	 * Die Nummer muss größer 0 sein, ansonsten wird eine Exception an den Aufrufer weitergeleitet.
 	 * 
-	 * @param  nr		             Patienten-Nr
+	 * @param  nr		             Angestellten-Nr
 	 * @throws NumberFormatException Fehlerhafte Eingabe
 	 */
 	public void setNr(int nr) throws NumberFormatException {
 		if (nr > 0) {
 			this.nr = nr;
 			setChanged();
-			this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+			this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 		} else {
 			throw new NumberFormatException();
 		}
@@ -215,34 +215,34 @@ public class PatientModel extends AbstractModel {
 
 
 	/**
-	 * Setzt die Telefonnummer des Patienten.
+	 * Setzt die Telefonnummer des Angestellten.
 	 * 
 	 * @param telefon Telefonnummer
 	 */
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
 		setChanged();
-		this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
 
 	/**
-	 * Setzt den Vornamen des Patienten
+	 * Setzt den Vornamen des Angestellten
 	 * 
 	 * @param vorname Vorname
 	 */
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 		setChanged();
-		this.notifyObservers(new PatientDataEvent(EventType.UPDATE, this));
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
 	
 	/**
-	 * Patient-Objekte werden anhand ihres Familiennamens
+	 * Angestellter-Objekte werden anhand ihres Familiennamens
 	 * sortiert, sofern dies benötigt wird.
 	 * 
-	 * @param amodel Zu vergleichendes Objekt, muss vom Typ PatientModel sein.
+	 * @param amodel Zu vergleichendes Objekt, muss vom Typ AngestellterModel sein.
 	 * 
 	 * @return 0: kein Unterscheid (feststellbar)
 	 *         1: Aktuelles Objekt ist unterwertig
@@ -251,11 +251,11 @@ public class PatientModel extends AbstractModel {
 	@Override
 	public int compareTo(AbstractModel amodel) {
 		
-		if (!(amodel instanceof PatientModel)) {
+		if (!(amodel instanceof AngestellterModel)) {
 			return 0;
 		}
 		
-		PatientModel m = (PatientModel) amodel;
+		AngestellterModel m = (AngestellterModel) amodel;
 		
 		if (m.getNachname() == null && this.getNachname() == null) {
 			return 0;

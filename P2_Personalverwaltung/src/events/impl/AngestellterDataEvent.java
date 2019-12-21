@@ -1,6 +1,6 @@
 package events.impl;
 
-import models.impl.PatientModel;
+import models.impl.AngestellterModel;
 import events.AbstractEvent;
 
 /**
@@ -14,43 +14,43 @@ import events.AbstractEvent;
  * @version 1.0
  *
  */
-public class PatientDataEvent extends AbstractEvent {
+public class AngestellterDataEvent extends AbstractEvent {
 
 
 	/**
 	 * Konstruktor.
-	 * Erzeugt ein PatientDataEvent-Objekt und befüllt es mit den notwendigen
+	 * Erzeugt ein AngestellterDataEvent-Objekt und befüllt es mit den notwendigen
 	 * Informationen.
-	 * Es muss der Typ des Events sowie das veränderte Patienten-Objekt
+	 * Es muss der Typ des Events sowie das veränderte Angestellte-Objekt
 	 * übergeben werden.
 	 * 
 	 * @param type	Art des Events
-	 * @param model	Patient-Objekt
+	 * @param model	Angestellter-Objekt
 	 */
-	public PatientDataEvent(EventType type, PatientModel model) {
+	public AngestellterDataEvent(EventType type, AngestellterModel model) {
 		super(type, model);
 	}
 
 
 	/**
-	 * Liefert das Patient-Objekt.
+	 * Liefert das Angestellter-Objekt.
 	 * 
-	 * @return Patient-Objekt
+	 * @return Angestellter-Objekt
 	 */
 	@Override
-	public PatientModel getData() {
-		return (PatientModel) this.data;
+	public AngestellterModel getData() {
+		return (AngestellterModel) this.data;
 	}
 
 
 	/**
-	 * setzt das Patient-Objekt
+	 * setzt das Angestellter-Objekt
 	 * 
-	 * @param data Das zu übermittelnde Patient-Objekt
+	 * @param data Das zu übermittelnde Angestellter-Objekt
 	 */
 	@Override
 	public void setData(Object data) {
-		if (data instanceof PatientModel) {
+		if (data instanceof AngestellterModel) {
 			this.data = data;
 		}
 	}
