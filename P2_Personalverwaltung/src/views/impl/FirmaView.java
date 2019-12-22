@@ -35,9 +35,11 @@ package views.impl;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,6 +50,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -111,7 +114,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiSpeichern;	  				//Schaltfläche "Datei speichern"
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
-
+	
+	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>();
+	
 
 	/**
 	 * Constructor.
@@ -206,7 +211,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		splitPane.setDividerLocation(250);
 
 		//Liste "Angestellte" erstellen
-		this.listAngestellteListe = new JList<AngestellterModel>();	
+		this.listAngestellteListe = new JList<AngestellterModel>(mitarbeiter);	
 		this.listAngestellteListe.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		/*
@@ -485,11 +490,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			 */
 			FirmaAngestellterEvent ppe = (FirmaAngestellterEvent) daten;
 			if (ppe.getType() == EventType.ADD) {
-				//Angestellter in die Angestellten-Liste aufnehmen
-								
-				//TODO: Hier müssen Sie einen Teil Ihrer Programmierung einfügen
-				//TODO: die folgenden Zeilen dienen nur als Debug-Ausgabe und sollen
-				//TODO: Ihnen als Anhaltspunkt dienen!
+				//Angestellter in die Angestellten-Liste aufnehmen			 
+				
+				mitarbeiter.removeAllElements();
+				mitarbeiter.addAll(model.getAngestellteListe());
+
 				System.out.println("FIRMAVIEW ADD = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getVorname());
 				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getNachname());
@@ -498,9 +503,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			else if (ppe.getType() == EventType.REMOVE) {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
-				//TODO: Hier müssen Sie einen Teil Ihrer Programmierung einfügen
-				//TODO: die folgenden Zeilen dienen nur als Debug-Ausgabe und sollen
-				//TODO: Ihnen als Anhaltspunkt dienen!
+				mitarbeiter.removeAllElements();
+				mitarbeiter.addAll(model.getAngestellteListe());
+				
 				System.out.println("FIRMAVIEW REMOVE = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getVorname());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getNachname());
