@@ -119,6 +119,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiSpeichern;	  				//Schaltfläche "Datei speichern"
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
+	private JButton btnEntferneAngestellten;			//Schaltfläche "Angestellten entfernen"
 	
 	private static JButton btnAddMitarbeiter;
 	private static JButton btnCancelAddMitarbeiter;
@@ -203,6 +204,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		toolBar.add(btnNeuerAngestellter);
 		btnNeuerAngestellter.setEnabled(true);
 
+		//"Angestellten entfernen"-Button
+		btnEntferneAngestellten = new JButton("Angestellten entfernen");
+		btnEntferneAngestellten.setIcon(new ImageIcon(FirmaView.class.getResource("/images/remove_angestellter.png")));
+		toolBar.add(btnEntferneAngestellten);
+		btnEntferneAngestellten.setEnabled(true);
+		
 		//Weiterleiten der Aktion beim Mausklick an den Controller
 		btnNeuerAngestellter.addActionListener(this.controller);
 
@@ -640,6 +647,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		return btnNeuerAngestellter;
 	}
 
+	
+	public JButton getBtnEntferneAngestellter() {
+		return btnEntferneAngestellten;
+	}
+	
 
 	public JButton getBtnSpeichern() {
 		return btnDateiSpeichern;
@@ -649,5 +661,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	public JButton getBtnAngestellterBearbeiten() {
 		return btnAngestellterBearbeiten;
 	}
+	
 
 }
