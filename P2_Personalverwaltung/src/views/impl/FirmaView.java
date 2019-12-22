@@ -37,6 +37,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -556,7 +557,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				//Angestellter in die Angestellten-Liste aufnehmen			 
 				
 				mitarbeiter.removeAllElements();
-				mitarbeiter.addAll(model.getAngestellteListe());
+				for(int i=0; i<model.getAngestellteListe().size();i++) {
+					mitarbeiter.add(i, model.getAngestellteListe().get(i));
+				}
 				
 				System.out.println("FIRMAVIEW ADD = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getVorname());
@@ -566,8 +569,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			else if (ppe.getType() == EventType.REMOVE) {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
-				mitarbeiter.removeAllElements();
-				mitarbeiter.addAll(model.getAngestellteListe());
 				
 				System.out.println("FIRMAVIEW REMOVE = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getVorname());
