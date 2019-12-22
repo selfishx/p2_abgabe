@@ -102,7 +102,7 @@ public class FirmaController extends AbstractController implements ActionListene
 		//Button für das Anlegen eines neuen Mitarbeiters
 		
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnNeuerAngestellter().getText()) {
-			FirmaView.showAddMitarbeiterWindow();
+			firmaView.showAddMitarbeiterWindow();
 		}
 		
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnSpeicherNeuenAngestellten().getText()) {
@@ -110,7 +110,7 @@ public class FirmaController extends AbstractController implements ActionListene
 		}
 		
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnAbbrechen().getText()) {
-			FirmaView.contentBearbeiten.getDefaultCloseOperation();
+			firmaView.contentBearbeiten.getDefaultCloseOperation();
 			
 		}
 		
