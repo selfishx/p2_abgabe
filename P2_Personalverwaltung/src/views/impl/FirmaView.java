@@ -57,6 +57,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
@@ -103,7 +104,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-
+	public JDialog contentBearbeiten = new JDialog(this, true);
+	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
 	private JLabel lblNameWert;			  //Feld zur Anzeige des Angestellten-Namen
 	private JLabel lblVornameWert;		  //Feld zur Anzeige des Angestellten-Vornamen
@@ -120,8 +122,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
 	
-	private static JButton btnAddMitarbeiter;
-	private static JButton btnCancelAddMitarbeiter;
+	private JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");
+	private JButton btnAbbrechen = new JButton("Abbrechen");
 	
 	private JTextField txtNameWert;
 	private JTextField txtVornameWert;
@@ -392,19 +394,16 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 	
-	
-	
 	//Ruft ein Fenster für die Bearbeitung auf
-	public static void showAddMitarbeiterWindow() {
-		
+	public void showAddMitarbeiterWindow() {
 		//Erzeugt das Bearbeitungsfenster
-		JFrame contentBearbeiten = new JFrame();
-		contentBearbeiten.setTitle("Mitarbeiter hinzufügen");
-		contentBearbeiten.setBounds(100, 100, 600, 300);
+		contentBearbeiten.setResizable(false);
+		contentBearbeiten.setTitle("Mitarbeiter hinzufügen");		
+		contentBearbeiten.setBounds(100, 100, 350, 280);
 		
 		JPanel bearbeitenPane = new JPanel();
-		bearbeitenPane.setLayout(new BorderLayout(0, 0));
-		contentBearbeiten.add(bearbeitenPane);
+		bearbeitenPane.setLayout(new BorderLayout(0,0));
+		contentBearbeiten.setContentPane(bearbeitenPane);
 		
 		//AnzeigeLabels
 		JLabel lblName = new JLabel("Name: ");
@@ -413,7 +412,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		JLabel lblStrasse = new JLabel("Straße: ");
 		JLabel lblPlz = new JLabel("PLZ: ");
 		JLabel lblWohnort = new JLabel("Wohnort: ");
-		JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.:: "); //Wird automatisch ermittelt
+		JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.: "); //Wird automatisch ermittelt
+		JLabel lblTelefon = new JLabel("Telefon: ");
+		JLabel lblLeer = new JLabel();
 		
 		//Text und Comboboxes
 		JTextField txtName = new JTextField();
@@ -421,19 +422,76 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		JTextField txtStraße = new JTextField();
 		JTextField txtPlz = new JTextField();
 		JTextField txtWohnort = new JTextField();
+		JTextField txtTelefon = new JTextField();
+		JTextField txtAngestelltenNummer = new JTextField();
 		JComboBox boxTag = new JComboBox();
 		JComboBox boxJahr = new JComboBox();
 		JComboBox boxMonat = new JComboBox();
 		
-		//Farbe für Panel einfügen um besser zu visualisieren
-		bearbeitenPane.setBackground(Color.GREEN);;
+		txtAngestelltenNummer.setEditable(false);
+		
+		//Buttons Speichern und Abbrechen
+		btnSpeicherNeuenAngestellten.addActionListener(this.controller);
+		btnAbbrechen.addActionListener(this.controller);
+		
+		//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
+		//Labels
+		lblVorname.setBounds(20, 30, 70, 15);
+		lblName.setBounds(20, 50, 70, 15);
+		lblGeburtstag.setBounds(20, 70, 70, 15);
+		lblStrasse.setBounds(20, 90, 70, 15);
+		lblPlz.setBounds(20, 110, 70, 15);
+		lblWohnort.setBounds(20, 130, 70, 15);
+		lblTelefon.setBounds(20, 150, 70, 15);
+		lblAngestelltenNr.setBounds(20, 170, 100, 15);
+		
+		bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
+		bearbeitenPane.add(lblName, BorderLayout.CENTER);
+		bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
+		bearbeitenPane.add(lblStrasse, BorderLayout.CENTER);
+		bearbeitenPane.add(lblPlz, BorderLayout.CENTER);
+		bearbeitenPane.add(lblWohnort, BorderLayout.CENTER);
+		bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
+		bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+		
+		//Buttons
+		btnSpeicherNeuenAngestellten.setBounds(220, 200, 100, 20);
+		btnAbbrechen.setBounds(118, 200, 100, 20);
+		
+		bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
+		bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+		
+		//Textfelder
+		txtVorname.setBounds(120, 30, 200, 15);
+		txtName.setBounds(120, 50, 200, 15);
+		txtStraße.setBounds(120, 90, 200, 15);
+		txtPlz.setBounds(120, 110, 200, 15);
+		txtWohnort.setBounds(120, 130, 200, 15);
+		txtTelefon.setBounds(120, 150, 200, 15);
+		txtAngestelltenNummer.setBounds(120, 170, 200, 15);
+		boxTag.setBounds(120, 70, 40, 15);
+		boxMonat.setBounds(175, 70, 55, 15);
+		boxJahr.setBounds(245, 70, 55, 15);
+		
+		
+		bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
+		bearbeitenPane.add(txtName, BorderLayout.CENTER);
+		bearbeitenPane.add(txtStraße,BorderLayout.CENTER);
+		bearbeitenPane.add(txtWohnort, BorderLayout.CENTER);
+		bearbeitenPane.add(txtPlz, BorderLayout.CENTER);
+		bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
+		bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
+		bearbeitenPane.add(boxTag);
+		bearbeitenPane.add(boxMonat);
+		bearbeitenPane.add(boxJahr);
+		bearbeitenPane.add(lblLeer);
 		
 		contentBearbeiten.setVisible(true);
-		bearbeitenPane.setVisible(true);	
+		bearbeitenPane.setVisible(true);
 	}
 	
 	
-	
+
 	
 
 	/**
@@ -569,7 +627,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			else if (ppe.getType() == EventType.REMOVE) {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
-				
+				mitarbeiter.removeAllElements();
+				for(int i=0; i<model.getAngestellteListe().size();i++) {
+					mitarbeiter.add(i, model.getAngestellteListe().get(i));
+				}
+							
 				System.out.println("FIRMAVIEW REMOVE = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getVorname());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getNachname());
@@ -644,5 +706,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	public JButton getBtnAngestellterBearbeiten() {
 		return btnAngestellterBearbeiten;
 	}
-
+	
+	public JButton getBtnSpeicherNeuenAngestellten() {
+		return btnSpeicherNeuenAngestellten;
+	}
+	
+	public JButton getBtnAbbrechen() {
+		return btnAbbrechen;
+	}
 }
