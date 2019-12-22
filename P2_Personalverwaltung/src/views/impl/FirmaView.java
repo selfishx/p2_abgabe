@@ -104,7 +104,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-	public JDialog contentBearbeiten = new JDialog(this, true);
+	private static FirmaView view = new FirmaView();
+	public static JDialog contentBearbeiten = new JDialog(view, true);
 	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
 	private JLabel lblNameWert;			  //Feld zur Anzeige des Angestellten-Namen
@@ -122,20 +123,20 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
 	
-	private JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");
-	private JButton btnAbbrechen = new JButton("Abbrechen");
+	private static JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");
+	private static JButton btnAbbrechen = new JButton("Abbrechen");
 	
-	private JTextField txtNameWert;
-	private JTextField txtVornameWert;
-	private JTextField txtAngestelltennummerWert;
-	private JTextField txtGeschlecht; //Als Combobox umbauen
-	private JTextField txtGeburtsdatumDayWert; //dd.mm.yyyy vielleicht mit 4 Txtfields
-	private JTextField txtGeburtsdatumMonthWert;
-	private JTextField txtGeburtsdatumYearWert;
-	private JTextField txtStrasseWert;
-	private JTextField txtPlzWert;
-	private JTextField txtOrtWert;
-	private JTextField txtTelefonWert;
+	private static JTextField txtNameWert;
+	private static JTextField txtVornameWert;
+	private static JTextField txtAngestelltennummerWert;
+	private static JTextField txtGeschlecht; //Als Combobox umbauen
+	private static JTextField txtGeburtsdatumDayWert; //dd.mm.yyyy vielleicht mit 4 Txtfields
+	private static JTextField txtGeburtsdatumMonthWert;
+	private static JTextField txtGeburtsdatumYearWert;
+	private static JTextField txtStrasseWert;
+	private static JTextField txtPlzWert;
+	private static JTextField txtOrtWert;
+	private static JTextField txtTelefonWert;
 	
 	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>();
 	
@@ -147,6 +148,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	 * 
 	 * @param firma FirmaModel
 	 */
+	
+	public FirmaView() {
+		
+	}
+	
 	public FirmaView(FirmaModel firma) {
 		setResizable(false);
 		this.model = firma;
@@ -395,7 +401,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	
 	//Ruft ein Fenster für die Bearbeitung auf
-	public void showAddMitarbeiterWindow() {
+	public static void showAddMitarbeiterWindow() {
 		//Erzeugt das Bearbeitungsfenster
 		contentBearbeiten.setResizable(false);
 		contentBearbeiten.setTitle("Mitarbeiter hinzufügen");		
@@ -431,8 +437,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		txtAngestelltenNummer.setEditable(false);
 		
 		//Buttons Speichern und Abbrechen
-		btnSpeicherNeuenAngestellten.addActionListener(this.controller);
-		btnAbbrechen.addActionListener(this.controller);
+		btnSpeicherNeuenAngestellten.addActionListener(view.controller);
+		btnAbbrechen.addActionListener(view.controller);
 		
 		//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
 		//Labels
@@ -490,10 +496,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		bearbeitenPane.setVisible(true);
 	}
 	
-	
-
-	
-
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
 	 * Datenobjekt
