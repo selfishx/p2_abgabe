@@ -569,6 +569,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			else if (ppe.getType() == EventType.REMOVE) {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
+				mitarbeiter.removeAllElements();
+				for(int i=0; i<model.getAngestellteListe().size();i++) {
+					mitarbeiter.add(i, model.getAngestellteListe().get(i));
+				}
+				
 				
 				System.out.println("FIRMAVIEW REMOVE = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getVorname());
