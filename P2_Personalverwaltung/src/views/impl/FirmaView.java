@@ -34,6 +34,7 @@
 package views.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -42,6 +43,8 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -49,6 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -114,6 +118,21 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiSpeichern;	  				//Schaltfläche "Datei speichern"
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
+	
+	private static JButton btnAddMitarbeiter;
+	private static JButton btnCancelAddMitarbeiter;
+	
+	private JTextField txtNameWert;
+	private JTextField txtVornameWert;
+	private JTextField txtAngestelltennummerWert;
+	private JTextField txtGeschlecht; //Als Combobox umbauen
+	private JTextField txtGeburtsdatumDayWert; //dd.mm.yyyy vielleicht mit 4 Txtfields
+	private JTextField txtGeburtsdatumMonthWert;
+	private JTextField txtGeburtsdatumYearWert;
+	private JTextField txtStrasseWert;
+	private JTextField txtPlzWert;
+	private JTextField txtOrtWert;
+	private JTextField txtTelefonWert;
 	
 	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>();
 	
@@ -371,6 +390,50 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		paAngestellter.add(sepTrenner1);
 	}
 
+	
+	
+	
+	//Ruft ein Fenster für die Bearbeitung auf
+	public static void showAddMitarbeiterWindow() {
+		
+		//Erzeugt das Bearbeitungsfenster
+		JFrame contentBearbeiten = new JFrame();
+		contentBearbeiten.setTitle("Mitarbeiter hinzufügen");
+		contentBearbeiten.setBounds(100, 100, 600, 300);
+		
+		JPanel bearbeitenPane = new JPanel();
+		bearbeitenPane.setLayout(new BorderLayout(0, 0));
+		contentBearbeiten.add(bearbeitenPane);
+		
+		//AnzeigeLabels
+		JLabel lblName = new JLabel("Name: ");
+		JLabel lblVorname = new JLabel("Vorname: ");
+		JLabel lblGeburtstag = new JLabel("Geburtstag: ");
+		JLabel lblStrasse = new JLabel("Straße: ");
+		JLabel lblPlz = new JLabel("PLZ: ");
+		JLabel lblWohnort = new JLabel("Wohnort: ");
+		JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.:: "); //Wird automatisch ermittelt
+		
+		//Text und Comboboxes
+		JTextField txtName = new JTextField();
+		JTextField txtVorname = new JTextField();
+		JTextField txtStraße = new JTextField();
+		JTextField txtPlz = new JTextField();
+		JTextField txtWohnort = new JTextField();
+		JComboBox boxTag = new JComboBox();
+		JComboBox boxJahr = new JComboBox();
+		JComboBox boxMonat = new JComboBox();
+		
+		//Farbe für Panel einfügen um besser zu visualisieren
+		bearbeitenPane.setBackground(Color.GREEN);;
+		
+		contentBearbeiten.setVisible(true);
+		bearbeitenPane.setVisible(true);	
+	}
+	
+	
+	
+	
 
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
@@ -494,7 +557,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				
 				mitarbeiter.removeAllElements();
 				mitarbeiter.addAll(model.getAngestellteListe());
-
+				
 				System.out.println("FIRMAVIEW ADD = " + ppe.getData().getNr());
 				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getVorname());
 				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getNachname());
