@@ -39,7 +39,6 @@ public class FirmaController extends AbstractController implements ActionListene
 	// Verweis auf das zugrundeliegende Model
 	private FirmaModel firmaModel;
 
-	
 	/**
 	 * Konstruktor des Controller. Es werden das Model und die View dem
 	 * Controller als Parameter übergeben. Der Controller setzt sich innerhalb
@@ -99,24 +98,24 @@ public class FirmaController extends AbstractController implements ActionListene
 		
 		//Button für das Anlegen eines neuen Mitarbeiters
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnNeuerAngestellter().getText()) {
+
 			firmaView.showAddMitarbeiterWindow();
 		}
-		//Button zum Speichern eines neuen Angestellten
+		
+		//Button zum Hinzufügen eines neuen Angestellten
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnSpeicherNeuenAngestellten().getText()) {
 			
+			firmaView.addNewAngestellter();			
 		}
+			
 		//Button um den Vorgang neuer Mitarbeiter abzubrechen
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnAbbrechen().getText()) {
 			firmaView.contentAddAngestellter.getDefaultCloseOperation();
 			
-		}
-		
-		
-		
-		
-		
+		}	
 	}
 
+	
 	/**
 	 * Setzt alle dargestellten Informationen zurück
 	 */
@@ -215,6 +214,28 @@ public class FirmaController extends AbstractController implements ActionListene
 	 * 
 	 * @param model Neues Objektmodell mit notwendigen Informationen
 	 */
+	
+	public void createNewAngestellten(String angestellter,String vorname, String nachname,String geburtsdatum, String geschlecht, String telefon, String angestelltenNr){
+
+
+		AngestellterModel neuerAngestellter = new AngestellterModel();
+		String[] infos = {angestellter, angestelltenNr, vorname, nachname, geburtsdatum, geschlecht, telefon};
+		
+		//Erster Eintrag muss immer "objekt" sein
+		if (infos[0].equals("angestellter")) {
+
+			//Eingelesene Informationen in das Objekt füllen.
+				neuerAngestellter.setNr(Integer.valueOf(infos[1]).intValue());
+				neuerAngestellter.setVorname(infos[2]);
+				neuerAngestellter.setNachname(infos[3]);
+				neuerAngestellter.setGeburtsdatum(infos[4]);
+				neuerAngestellter.setGeschlecht(Integer.valueOf(infos[5]).intValue());
+				neuerAngestellter.setTelefon(infos[6]);
+		}
+		
+		this.firmaModel.addAngestellter(neuerAngestellter);
+	}
+	
 	public void angestellterHinzufuegen(AngestellterModel model) {
 		
 		//Prüfen, ob ein evtl. vorhandenes Objekt aktualisiert wurde. Dann an dieser Stelle in der Liste

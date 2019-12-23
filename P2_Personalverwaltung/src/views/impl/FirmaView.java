@@ -114,32 +114,45 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JLabel lblPlzWert;			  //Feld zur Anzeige der Angestellten-PLZ
 	private JLabel lblOrtWert;			  //Feld zur Anzeige der Angestellten-Stadt
 	private JLabel lblTelefonWert;		  //Feld zur Anzeige der Angestellten-Telefonnummer
+	
+	//AnzeigeLabels für Mitarbeiter hinzufügen deklarieren und initialisieren
+	private JLabel lblName = new JLabel("Name: ");
+	private JLabel lblVorname = new JLabel("Vorname: ");
+	private JLabel lblGeburtstag = new JLabel("Geburtstag: ");
+	private JLabel lblGeschlecht = new JLabel("Geschlecht: ");
+	private JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.: "); //Wird automatisch ermittelt
+	private JLabel lblTelefon = new JLabel("Telefon: ");
+	private JLabel lblAngestellter = new JLabel("angestellter");//Gibt den Wert "angestellter" zur Überprüfung weiter
+	
+	//TextFelder für Mitarbeiter hinzufügen deklarieren
+	private JTextField txtName = new JTextField();
+	private JTextField txtVorname = new JTextField();
+	private JTextField txtTelefon = new JTextField();
+	private JTextField txtAngestelltenNummer = new JTextField();
+	
+	private String geburtsdatumNewAngestellter; //String Geburtsdatum zur Umwandlung aus der ComboBox
+	
+	//ComboBoxesfür Mitarbeiter hinzufügen deklarieren
+	private JComboBox<String> boxTag = new JComboBox<>();
+	private JComboBox<String> boxMonat = new JComboBox<>();
+	private JComboBox<String> boxJahr = new JComboBox<>();
+	private JComboBox<String> boxGeschlecht = new JComboBox<>();
 
 	private JList<AngestellterModel> listAngestellteListe;	  	//Liste aller Angestellten der Firma
+	
 	private JButton btnAngestellterBearbeiten; 				//Schaltfläche "Angestellter bearbeiten"
 	private JButton btnDateiSpeichern;	  				//Schaltfläche "Datei speichern"
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
 	private JButton btnEntferneAngestellten;			//Schaltfläche "Angestellten entfernen"
-	private  JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");//Neuen mitarbeiter hinzufügen im Dialog neuer Angestellter
-	private  JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
+	private JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");//Neuen mitarbeiter hinzufügen im Dialog neuer Angestellter
+	private JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
 	
-	private static JButton btnAddMitarbeiter;
-	private static JButton btnCancelAddMitarbeiter;
-	
-	private JTextField txtNameWert;
-	private JTextField txtVornameWert;
-	private JTextField txtAngestelltennummerWert;
-	private JTextField txtGeschlecht; //Als Combobox umbauen
-	private JTextField txtGeburtsdatumDayWert; //dd.mm.yyyy vielleicht mit 4 Txtfields
-	private JTextField txtGeburtsdatumMonthWert;
-	private JTextField txtGeburtsdatumYearWert;
-	private JTextField txtStrasseWert;
-	private JTextField txtPlzWert;
-	private JTextField txtOrtWert;
-	private JTextField txtTelefonWert;
-	
-	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>();
+	/*
+	 * Liste aller Angestellten, die bei einem EVENT update befüllt wird
+	 * Die Liste wird der JList listAngestellteListe übergeben
+	 */
+	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>(); 
 	
 
 	/**
@@ -400,102 +413,132 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		paAngestellter.add(lblStrasseWert);
 		paAngestellter.add(sepTrenner1);
 	}
-
-	//Ruft ein Fenster für die Bearbeitung auf
-		public  void showAddMitarbeiterWindow() {
-			//Erzeugt das Bearbeitungsfenster
-			contentAddAngestellter.setResizable(false);
-			contentAddAngestellter.setTitle("Mitarbeiter hinzufügen");		
-			contentAddAngestellter.setBounds(100, 100, 350, 280);
+	
+	/*
+		 * Ruft ein Fenster für "neuer Mitarbeiter" auf
+		 */
+	
+	public void showAddMitarbeiterWindow() {
+		//Erzeugt das Bearbeitungsfenster
+		contentAddAngestellter.setResizable(false);
+		contentAddAngestellter.setTitle("Mitarbeiter hinzufügen");		
+		contentAddAngestellter.setBounds(100, 100, 350, 250);
+		
+		JPanel bearbeitenPane = new JPanel();
+		bearbeitenPane.setLayout(new BorderLayout(0,0));
+		contentAddAngestellter.setContentPane(bearbeitenPane);
 			
-			JPanel bearbeitenPane = new JPanel();
-			bearbeitenPane.setLayout(new BorderLayout(0,0));
-			contentAddAngestellter.setContentPane(bearbeitenPane);
+		txtAngestelltenNummer.setEditable(true); //Verhindert das Bearbeiten des Feldes AngestelltenNr. Die Nummer wird automatisch generiert.
 			
-			//AnzeigeLabels
-			JLabel lblName = new JLabel("Name: ");
-			JLabel lblVorname = new JLabel("Vorname: ");
-			JLabel lblGeburtstag = new JLabel("Geburtstag: ");
-			JLabel lblStrasse = new JLabel("Straße: ");
-			JLabel lblPlz = new JLabel("PLZ: ");
-			JLabel lblWohnort = new JLabel("Wohnort: ");
-			JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.: "); //Wird automatisch ermittelt
-			JLabel lblTelefon = new JLabel("Telefon: ");
-			JLabel lblLeer = new JLabel();
+		//Arrays für die Comboboxes deklarieren und initialisieren
+		String[] tage = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15","16","17","18","19","20","21","23","24","25","26","27","28","29","30","31"};
+		String[] monate = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+		String[] jahr = new String[75];
 			
-			//Text und Comboboxes
-			JTextField txtName = new JTextField();
-			JTextField txtVorname = new JTextField();
-			JTextField txtStraße = new JTextField();
-			JTextField txtPlz = new JTextField();
-			JTextField txtWohnort = new JTextField();
-			JTextField txtTelefon = new JTextField();
-			JTextField txtAngestelltenNummer = new JTextField();
-			JComboBox boxTag = new JComboBox();
-			JComboBox boxJahr = new JComboBox();
-			JComboBox boxMonat = new JComboBox();
+			for(int i = 0; jahr.length > i ;i++) {
+				int k = 1944+i;
+				Integer.toString(k);
+				jahr[i] = ""+k;
+			}
+		//Comboboxes für Geburtsdatum initialisieren
+		int t = 0;
+		int m = 0;
+		int y = 0;
 			
-			txtAngestelltenNummer.setEditable(false);
-			
-			//Buttons Speichern und Abbrechen
-			btnSpeicherNeuenAngestellten.addActionListener(this.controller);
-			btnAbbrechen.addActionListener(this.controller);
-			
-			//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
-			//Labels
-			lblVorname.setBounds(20, 30, 70, 15);
-			lblName.setBounds(20, 50, 70, 15);
-			lblGeburtstag.setBounds(20, 70, 70, 15);
-			lblStrasse.setBounds(20, 90, 70, 15);
-			lblPlz.setBounds(20, 110, 70, 15);
-			lblWohnort.setBounds(20, 130, 70, 15);
-			lblTelefon.setBounds(20, 150, 70, 15);
-			lblAngestelltenNr.setBounds(20, 170, 100, 15);
-			
-			bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
-			bearbeitenPane.add(lblName, BorderLayout.CENTER);
-			bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
-			bearbeitenPane.add(lblStrasse, BorderLayout.CENTER);
-			bearbeitenPane.add(lblPlz, BorderLayout.CENTER);
-			bearbeitenPane.add(lblWohnort, BorderLayout.CENTER);
-			bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
-			bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
-			
-			//Buttons
-			btnSpeicherNeuenAngestellten.setBounds(220, 200, 100, 20);
-			btnAbbrechen.setBounds(118, 200, 100, 20);
-			
-			bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
-			bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
-			
-			//Textfelder
-			txtVorname.setBounds(120, 30, 200, 15);
-			txtName.setBounds(120, 50, 200, 15);
-			txtStraße.setBounds(120, 90, 200, 15);
-			txtPlz.setBounds(120, 110, 200, 15);
-			txtWohnort.setBounds(120, 130, 200, 15);
-			txtTelefon.setBounds(120, 150, 200, 15);
-			txtAngestelltenNummer.setBounds(120, 170, 200, 15);
-			boxTag.setBounds(120, 70, 40, 15);
-			boxMonat.setBounds(175, 70, 55, 15);
-			boxJahr.setBounds(245, 70, 55, 15);
-			
-			
-			bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
-			bearbeitenPane.add(txtName, BorderLayout.CENTER);
-			bearbeitenPane.add(txtStraße,BorderLayout.CENTER);
-			bearbeitenPane.add(txtWohnort, BorderLayout.CENTER);
-			bearbeitenPane.add(txtPlz, BorderLayout.CENTER);
-			bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
-			bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
-			bearbeitenPane.add(boxTag);
-			bearbeitenPane.add(boxMonat);
-			bearbeitenPane.add(boxJahr);
-			bearbeitenPane.add(lblLeer);
-			
-			contentAddAngestellter.setVisible(true);
-			bearbeitenPane.setVisible(true);
+		while(t<tage.length) {
+			boxTag.addItem(tage[t]);
+			t++;
 		}
+		while(m<monate.length) {
+			boxMonat.addItem(monate[m]);
+			m++;
+		}
+		while(y<jahr.length) {
+			boxJahr.addItem(jahr[y]);
+			y++;
+		}
+		boxGeschlecht.addItem("Männlich");
+		boxGeschlecht.addItem("Weiblich");
+			
+		//Buttons Speichern und Abbrechen ActionListener
+		btnSpeicherNeuenAngestellten.addActionListener(this.controller);
+		btnAbbrechen.addActionListener(this.controller);
+			
+		//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
+		
+		//Labels
+		lblVorname.setBounds(20, 30, 70, 15);
+		lblName.setBounds(20, 52, 70, 15);
+		lblGeburtstag.setBounds(20, 74, 70, 15);
+		lblGeschlecht.setBounds(20,96,70,15);
+		lblTelefon.setBounds(20, 118, 70, 15);
+		lblAngestelltenNr.setBounds(20, 140, 100, 15);	
+		bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
+		bearbeitenPane.add(lblName, BorderLayout.CENTER);
+		bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
+		bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
+		bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+		bearbeitenPane.add(lblGeschlecht);
+			
+		//Textfelder
+		txtVorname.setBounds(120, 30, 200, 19);
+		txtName.setBounds(120, 52, 200, 19);
+		txtTelefon.setBounds(120, 118, 200, 19);
+		txtAngestelltenNummer.setBounds(120, 140, 200, 19);
+		
+		bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
+		bearbeitenPane.add(txtName, BorderLayout.CENTER);
+		bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
+		bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);	
+			
+		//Datumboxes
+		boxTag.setBounds(120, 74, 40, 18);
+		boxMonat.setBounds(165, 74, 40, 18);
+		boxJahr.setBounds(210, 74, 53, 18);
+		bearbeitenPane.add(boxTag);
+		bearbeitenPane.add(boxMonat);
+		bearbeitenPane.add(boxJahr);
+		
+		//Geschlechtboxes
+		boxGeschlecht.setBounds(120,96,80,18);
+		bearbeitenPane.add(boxGeschlecht);
+		
+		//Buttons
+		btnSpeicherNeuenAngestellten.setBounds(220, 170, 100, 20);
+		btnAbbrechen.setBounds(118, 170, 100, 20);
+		bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
+		bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+		
+		//Wert Angestellter als Überprüfung
+		lblAngestellter.setVisible(false);
+		bearbeitenPane.add(lblAngestellter);
+					
+		contentAddAngestellter.setVisible(true);
+		bearbeitenPane.setVisible(true);
+	}
+	
+	public void addNewAngestellter() {
+		geburtsdatumNewAngestellter = ""+boxTag.getSelectedItem()+"."+boxMonat.getSelectedItem()+"."+boxJahr.getSelectedItem();
+		
+		String angestellter = lblAngestellter.getText();
+		String angestelltenNr = txtAngestelltenNummer.getText();
+		String vorname = txtVorname.getText();
+		String nachname = txtName.getText();
+		String geburtsdatum = geburtsdatumNewAngestellter;
+		String geschlecht = ""+boxGeschlecht.getSelectedItem();
+		String telefon = txtTelefon.getText();
+		
+		//Aus dem Geschlecht eine Zahl im Stringformat generieren um diese ordnungsgemäß als Parameter zu übergeben
+		if(geschlecht == "Männlich") {
+			geschlecht = "1";
+		}
+		else {
+			geschlecht = "0";
+		}
+		
+		controller.createNewAngestellten(angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr);
+	}
+	
 
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
