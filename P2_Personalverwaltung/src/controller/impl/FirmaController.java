@@ -97,16 +97,19 @@ public class FirmaController extends AbstractController implements ActionListene
 			}
 		}
 		
-		
-		
 		//Button für das Anlegen eines neuen Mitarbeiters
-		
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnNeuerAngestellter().getText()) {
-			FirmaView.showAddMitarbeiterWindow();
+			firmaView.showAddMitarbeiterWindow();
+		}
+		//Button zum Speichern eines neuen Angestellten
+		if (this.firmaView != null && actionCommand == this.firmaView.getBtnSpeicherNeuenAngestellten().getText()) {
 			
 		}
-		
-		
+		//Button um den Vorgang neuer Mitarbeiter abzubrechen
+		if (this.firmaView != null && actionCommand == this.firmaView.getBtnAbbrechen().getText()) {
+			firmaView.contentAddAngestellter.getDefaultCloseOperation();
+			
+		}
 		
 		
 		

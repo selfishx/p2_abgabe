@@ -103,7 +103,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-
+	public  JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
+	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
 	private JLabel lblNameWert;			  //Feld zur Anzeige des Angestellten-Namen
 	private JLabel lblVornameWert;		  //Feld zur Anzeige des Angestellten-Vornamen
@@ -120,6 +121,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnDateiLaden;		  				//Schaltfläche "Datei laden"
 	private JButton btnNeuerAngestellter;	  				//Schaltfläche "Neuer Angestellter"
 	private JButton btnEntferneAngestellten;			//Schaltfläche "Angestellten entfernen"
+	private  JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");//Neuen mitarbeiter hinzufügen im Dialog neuer Angestellter
+	private  JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
 	
 	private static JButton btnAddMitarbeiter;
 	private static JButton btnCancelAddMitarbeiter;
@@ -398,50 +401,101 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		paAngestellter.add(sepTrenner1);
 	}
 
-	
-	
-	
 	//Ruft ein Fenster für die Bearbeitung auf
-	public static void showAddMitarbeiterWindow() {
-		
-		//Erzeugt das Bearbeitungsfenster
-		JFrame contentBearbeiten = new JFrame();
-		contentBearbeiten.setTitle("Mitarbeiter hinzufügen");
-		contentBearbeiten.setBounds(100, 100, 600, 300);
-		
-		JPanel bearbeitenPane = new JPanel();
-		bearbeitenPane.setLayout(new BorderLayout(0, 0));
-		contentBearbeiten.add(bearbeitenPane);
-		
-		//AnzeigeLabels
-		JLabel lblName = new JLabel("Name: ");
-		JLabel lblVorname = new JLabel("Vorname: ");
-		JLabel lblGeburtstag = new JLabel("Geburtstag: ");
-		JLabel lblStrasse = new JLabel("Straße: ");
-		JLabel lblPlz = new JLabel("PLZ: ");
-		JLabel lblWohnort = new JLabel("Wohnort: ");
-		JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.:: "); //Wird automatisch ermittelt
-		
-		//Text und Comboboxes
-		JTextField txtName = new JTextField();
-		JTextField txtVorname = new JTextField();
-		JTextField txtStraße = new JTextField();
-		JTextField txtPlz = new JTextField();
-		JTextField txtWohnort = new JTextField();
-		JComboBox boxTag = new JComboBox();
-		JComboBox boxJahr = new JComboBox();
-		JComboBox boxMonat = new JComboBox();
-		
-		//Farbe für Panel einfügen um besser zu visualisieren
-		bearbeitenPane.setBackground(Color.GREEN);;
-		
-		contentBearbeiten.setVisible(true);
-		bearbeitenPane.setVisible(true);	
-	}
-	
-	
-	
-	
+		public  void showAddMitarbeiterWindow() {
+			//Erzeugt das Bearbeitungsfenster
+			contentAddAngestellter.setResizable(false);
+			contentAddAngestellter.setTitle("Mitarbeiter hinzufügen");		
+			contentAddAngestellter.setBounds(100, 100, 350, 280);
+			
+			JPanel bearbeitenPane = new JPanel();
+			bearbeitenPane.setLayout(new BorderLayout(0,0));
+			contentAddAngestellter.setContentPane(bearbeitenPane);
+			
+			//AnzeigeLabels
+			JLabel lblName = new JLabel("Name: ");
+			JLabel lblVorname = new JLabel("Vorname: ");
+			JLabel lblGeburtstag = new JLabel("Geburtstag: ");
+			JLabel lblStrasse = new JLabel("Straße: ");
+			JLabel lblPlz = new JLabel("PLZ: ");
+			JLabel lblWohnort = new JLabel("Wohnort: ");
+			JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.: "); //Wird automatisch ermittelt
+			JLabel lblTelefon = new JLabel("Telefon: ");
+			JLabel lblLeer = new JLabel();
+			
+			//Text und Comboboxes
+			JTextField txtName = new JTextField();
+			JTextField txtVorname = new JTextField();
+			JTextField txtStraße = new JTextField();
+			JTextField txtPlz = new JTextField();
+			JTextField txtWohnort = new JTextField();
+			JTextField txtTelefon = new JTextField();
+			JTextField txtAngestelltenNummer = new JTextField();
+			JComboBox boxTag = new JComboBox();
+			JComboBox boxJahr = new JComboBox();
+			JComboBox boxMonat = new JComboBox();
+			
+			txtAngestelltenNummer.setEditable(false);
+			
+			//Buttons Speichern und Abbrechen
+			btnSpeicherNeuenAngestellten.addActionListener(this.controller);
+			btnAbbrechen.addActionListener(this.controller);
+			
+			//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
+			//Labels
+			lblVorname.setBounds(20, 30, 70, 15);
+			lblName.setBounds(20, 50, 70, 15);
+			lblGeburtstag.setBounds(20, 70, 70, 15);
+			lblStrasse.setBounds(20, 90, 70, 15);
+			lblPlz.setBounds(20, 110, 70, 15);
+			lblWohnort.setBounds(20, 130, 70, 15);
+			lblTelefon.setBounds(20, 150, 70, 15);
+			lblAngestelltenNr.setBounds(20, 170, 100, 15);
+			
+			bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
+			bearbeitenPane.add(lblName, BorderLayout.CENTER);
+			bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
+			bearbeitenPane.add(lblStrasse, BorderLayout.CENTER);
+			bearbeitenPane.add(lblPlz, BorderLayout.CENTER);
+			bearbeitenPane.add(lblWohnort, BorderLayout.CENTER);
+			bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
+			bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+			
+			//Buttons
+			btnSpeicherNeuenAngestellten.setBounds(220, 200, 100, 20);
+			btnAbbrechen.setBounds(118, 200, 100, 20);
+			
+			bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
+			bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+			
+			//Textfelder
+			txtVorname.setBounds(120, 30, 200, 15);
+			txtName.setBounds(120, 50, 200, 15);
+			txtStraße.setBounds(120, 90, 200, 15);
+			txtPlz.setBounds(120, 110, 200, 15);
+			txtWohnort.setBounds(120, 130, 200, 15);
+			txtTelefon.setBounds(120, 150, 200, 15);
+			txtAngestelltenNummer.setBounds(120, 170, 200, 15);
+			boxTag.setBounds(120, 70, 40, 15);
+			boxMonat.setBounds(175, 70, 55, 15);
+			boxJahr.setBounds(245, 70, 55, 15);
+			
+			
+			bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
+			bearbeitenPane.add(txtName, BorderLayout.CENTER);
+			bearbeitenPane.add(txtStraße,BorderLayout.CENTER);
+			bearbeitenPane.add(txtWohnort, BorderLayout.CENTER);
+			bearbeitenPane.add(txtPlz, BorderLayout.CENTER);
+			bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
+			bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
+			bearbeitenPane.add(boxTag);
+			bearbeitenPane.add(boxMonat);
+			bearbeitenPane.add(boxJahr);
+			bearbeitenPane.add(lblLeer);
+			
+			contentAddAngestellter.setVisible(true);
+			bearbeitenPane.setVisible(true);
+		}
 
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
@@ -660,6 +714,14 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	public JButton getBtnAngestellterBearbeiten() {
 		return btnAngestellterBearbeiten;
+	}
+	
+	public JButton getBtnSpeicherNeuenAngestellten() {
+		return btnSpeicherNeuenAngestellten;
+	}
+	
+	public JButton getBtnAbbrechen() {
+		return btnAbbrechen;
 	}
 	
 
