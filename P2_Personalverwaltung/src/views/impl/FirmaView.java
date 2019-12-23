@@ -103,7 +103,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-	public  JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
+	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
+	public JDialog contentEntferneAngestellten = new JDialog();//Dialog für Angestellten entfernen
+	
 	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
 	private JLabel lblNameWert;			  //Feld zur Anzeige des Angestellten-Namen
@@ -137,6 +139,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JComboBox<String> boxMonat = new JComboBox<>();
 	private JComboBox<String> boxJahr = new JComboBox<>();
 	private JComboBox<String> boxGeschlecht = new JComboBox<>();
+	
+	//
 
 	private JList<AngestellterModel> listAngestellteListe;	  	//Liste aller Angestellten der Firma
 	
@@ -147,7 +151,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnEntferneAngestellten;			//Schaltfläche "Angestellten entfernen"
 	private JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");//Neuen mitarbeiter hinzufügen im Dialog neuer Angestellter
 	private JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
-	
+	private JButton btnEntfernen = new JButton("Entfernen");//Aktion Mitarbeiter entfernen bestätigen im Dialog Angestellten entfernen
 	/*
 	 * Liste aller Angestellten, die bei einem EVENT update befüllt wird
 	 * Die Liste wird der JList listAngestellteListe übergeben
@@ -219,6 +223,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		btnNeuerAngestellter.setIcon(new ImageIcon(FirmaView.class.getResource("/images/neuer_patient.png")));
 		toolBar.add(btnNeuerAngestellter);
 		btnNeuerAngestellter.setEnabled(true);
+		
+		//Weiterleiten der Aktion beim Mausklick an den Controller
+		btnNeuerAngestellter.addActionListener(this.controller);
 
 		//"Angestellten entfernen"-Button
 		btnEntferneAngestellten = new JButton("Angestellten entfernen");
@@ -227,7 +234,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		btnEntferneAngestellten.setEnabled(true);
 		
 		//Weiterleiten der Aktion beim Mausklick an den Controller
-		btnNeuerAngestellter.addActionListener(this.controller);
+		btnEntferneAngestellten.addActionListener(this.controller);
+		
+		
 
 		//"Speichern"-Button
 		this.btnDateiSpeichern = new JButton("Speichern");
@@ -539,6 +548,31 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		controller.createNewAngestellten(angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr);
 	}
 	
+	
+	//K - Ruft ein "Sicher löschen?"-Fenster beim klicken von "Angestellten entfernen" auf
+	public void showEntferneAngestelltenWindow() {
+		
+		contentEntferneAngestellten.setResizable(false);
+		contentEntferneAngestellten.setTitle("Angestellten entfernen");		
+		contentEntferneAngestellten.setSize(420, 120);
+		contentEntferneAngestellten.setVisible(true);
+		
+		JLabel entfernenBestätigen = new JLabel ("Möchten Sie den ausgewählten Angestellten wirklich entfernen?");
+		contentEntferneAngestellten.add(entfernenBestätigen);
+		entfernenBestätigen.setSize(400,50);
+		entfernenBestätigen.setVisible(true);
+		
+		contentEntferneAngestellten.add(btnEntfernen);
+		btnEntfernen.setBounds(0,55,210,30);
+		
+		contentEntferneAngestellten.add(btnAbbrechen);
+		btnAbbrechen.setBounds(210, 55, 210, 30);
+		
+		
+		//TODO K-Actionlistener und Events hinzufügen
+		
+	}
+	
 
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
@@ -561,6 +595,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	}
 
+	
 
 	/**
 	 * Diese Methode setzt alle Anzeigefelder der Angestelltendaten auf "leer" zurück.
@@ -745,7 +780,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 	
-	public JButton getBtnEntferneAngestellter() {
+	public JButton getBtnEntferneAngestellten() {
 		return btnEntferneAngestellten;
 	}
 	
@@ -765,6 +800,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	
 	public JButton getBtnAbbrechen() {
 		return btnAbbrechen;
+	}
+	
+	//Entfernen-Button im Dialog "Angestellten entfernen"
+		public JButton getBtnEntfernen() {
+		return btnEntfernen;
 	}
 	
 
