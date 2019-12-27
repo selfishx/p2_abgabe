@@ -131,10 +131,10 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JLabel lblAngestellter = new JLabel("angestellter");//Gibt den Wert "angestellter" zur Überprüfung weiter
 	
 	//TextFelder für Mitarbeiter hinzufügen deklarieren
-	private JTextField txtName = new JTextField();
-	private JTextField txtVorname = new JTextField();
-	public  JTextField txtTelefon = new JTextField();
-	private JTextField txtAngestelltenNummer = new JTextField();
+	private JTextField txtName = new JTextField(50);
+	private JTextField txtVorname = new JTextField(50);
+	public  JTextField txtTelefon = new JTextField(50);
+	private JTextField txtAngestelltenNummer = new JTextField(50);
 	
 	private String geburtsdatumNewAngestellter; //String Geburtsdatum zur Umwandlung aus der ComboBox
 	
@@ -305,10 +305,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					for(int i = 0; i <= FirmaView.this.listAngestellteListe.getSelectedIndex();i++) {
 						
 						AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
-						int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+						if(angestellterPrüfen.getTelefon().length()<=1) {
+							int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
 						
-						if(telefon == 0) {
-							gelöschte = gelöschte + 1;
+							if(telefon == 0) {
+								gelöschte = gelöschte + 1;
+							}
 						}
 					}
 						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex() +gelöschte;
@@ -456,8 +458,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		txtAngestelltenNummer.setEditable(false); //Verhindert das Bearbeiten des Feldes AngestelltenNr. Die Nummer wird automatisch generiert.
 			
 		//Arrays für die Comboboxes deklarieren und initialisieren
-		String[] tage = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15","16","17","18","19","20","21","23","24","25","26","27","28","29","30","31"};
-		String[] monate = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+		String[] tage = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
+		String[] monate = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 		String[] jahr = new String[75];
 			
 			for(int i = 0; jahr.length > i ;i++) {
@@ -466,6 +468,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				jahr[i] = ""+k;
 			}
 		//Comboboxes für Geburtsdatum initialisieren
+		boxTag.removeAllItems();
+		boxMonat.removeAllItems();
+		boxJahr.removeAllItems();
 		int t = 0;
 		int m = 0;
 		int y = 0;
@@ -482,6 +487,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			boxJahr.addItem(jahr[y]);
 			y++;
 		}
+		
+		//ComboBox Geschlecht initialisieren
+		boxGeschlecht.removeAllItems();
 		boxGeschlecht.addItem("Männlich");
 		boxGeschlecht.addItem("Weiblich");
 			
@@ -580,7 +588,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			     String telefon = txtTelefon.getText();
 			     
 			     
-					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0){
 						btnSpeicherNeuenAngestellten.setEnabled(true);
 					}
 					else {
@@ -798,11 +806,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		String vorname = txtVorname.getText();
 		String nachname = txtName.getText();
 		String geburtsdatum = geburtsdatumNewAngestellter;
-		String geschlecht = ""+boxGeschlecht.getSelectedItem();
+		int geschlechtNr = boxGeschlecht.getSelectedIndex();
+		String geschlecht;
 		String telefon = txtTelefon.getText();
 		
 		//Aus dem Geschlecht eine Zahl im Stringformat generieren um diese ordnungsgemäß als Parameter zu übergeben
-		if(geschlecht == "Männlich") {
+		if(geschlechtNr == 0) {
 			geschlecht = "0";
 		}
 		else {
@@ -966,10 +975,21 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					
 					AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
 					int indexnummer = mitarbeiter.getSize();
-					int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
 					
-					if(telefon == 0) {
-						System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+					if(angestellterPrüfen.getTelefon().length()<=1) {
+						int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+					
+						if(telefon == 0) {
+							System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+						}
+						else {
+							mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
+							
+							//Systemausgabe
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNr());
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getVorname());
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNachname());
+						}
 					}
 					else {
 						mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
@@ -992,10 +1012,21 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					
 					AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
 					int indexnummer = mitarbeiter.getSize();
-					int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
 					
-					if(telefon == 0) {
-						System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+					if(angestellterPrüfen.getTelefon().length()<=1) {
+						int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+					
+						if(telefon == 0) {
+							System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+						}
+						else {
+							mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
+							
+							//Systemausgabe
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNr());
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getVorname());
+							System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNachname());
+						}
 					}
 					else {
 						mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
