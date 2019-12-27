@@ -36,6 +36,9 @@ package views.impl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -49,6 +52,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -129,7 +133,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//TextFelder für Mitarbeiter hinzufügen deklarieren
 	private JTextField txtName = new JTextField();
 	private JTextField txtVorname = new JTextField();
-	private JTextField txtTelefon = new JTextField();
+	public  JTextField txtTelefon = new JTextField();
 	private JTextField txtAngestelltenNummer = new JTextField();
 	
 	private String geburtsdatumNewAngestellter; //String Geburtsdatum zur Umwandlung aus der ComboBox
@@ -139,8 +143,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JComboBox<String> boxMonat = new JComboBox<>();
 	private JComboBox<String> boxJahr = new JComboBox<>();
 	private JComboBox<String> boxGeschlecht = new JComboBox<>();
-	
-	//
 
 	private JList<AngestellterModel> listAngestellteListe;	  	//Liste aller Angestellten der Firma
 	
@@ -262,7 +264,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		splitPane.setDividerLocation(250);
 
-		//Liste "Angestellte" erstellen
+		//Liste "Angestellte" erstellen. Sie dient zur Anzeige im Auswahlfenster der Mitarbeiter (das Fenster auf der linken Seite)
 		this.listAngestellteListe = new JList<AngestellterModel>(mitarbeiter);	
 		this.listAngestellteListe.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -296,7 +298,21 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 					//Anhand des selektierten Eintrages wird die erste (0-basiert!) Spalte 
 					//(AngestellteNr) ausgelesen
-					int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex() + 1;
+					//Eine Schleife zählt die gelöschten Mitarbeiter und gibt den Wert an den SelectedIndex weiter.
+					
+					int gelöschte = 1;
+					
+					for(int i = 0; i <= FirmaView.this.listAngestellteListe.getSelectedIndex();i++) {
+						
+						AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
+						int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+						
+						if(telefon == 0) {
+							gelöschte = gelöschte + 1;
+						}
+					}
+						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex() +gelöschte;
+					
 
 					//Mittels des FirmaModel wird das passende AngestellterModel-Objekt
 					//anhand der AngestellteNr geliefert.
@@ -437,7 +453,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		bearbeitenPane.setLayout(new BorderLayout(0,0));
 		contentAddAngestellter.setContentPane(bearbeitenPane);
 			
-		txtAngestelltenNummer.setEditable(true); //Verhindert das Bearbeiten des Feldes AngestelltenNr. Die Nummer wird automatisch generiert.
+		txtAngestelltenNummer.setEditable(false); //Verhindert das Bearbeiten des Feldes AngestelltenNr. Die Nummer wird automatisch generiert.
 			
 		//Arrays für die Comboboxes deklarieren und initialisieren
 		String[] tage = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15","16","17","18","19","20","21","23","24","25","26","27","28","29","30","31"};
@@ -498,7 +514,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
 		bearbeitenPane.add(txtName, BorderLayout.CENTER);
 		bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
-		bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);	
+		bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
 			
 		//Datumboxes
 		boxTag.setBounds(120, 74, 40, 18);
@@ -517,16 +533,264 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		btnAbbrechen.setBounds(118, 170, 100, 20);
 		bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
 		bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+		btnSpeicherNeuenAngestellten.setEnabled(false);
 		
-		//Wert Angestellter als Überprüfung
+		//Wert "angestellter" als Überprüfung
 		lblAngestellter.setVisible(false);
 		bearbeitenPane.add(lblAngestellter);
-					
+		
+		//Reset Felder "Angestellter hinzufügen"
+		txtVorname.setText("");
+		txtName.setText("");
+		boxGeschlecht.setSelectedIndex(0);
+		boxTag.setSelectedIndex(0);
+		boxMonat.setSelectedIndex(0);
+		boxJahr.setSelectedIndex(0);
+		txtTelefon.setText("");
+		txtAngestelltenNummer.setText(Integer.toString(model.getAngestellteListe().size()+1)); 	//generiert eine neue Nummer für den Mitarbeiter. Sie ist fortlaufend, basierend auf Länge model.getAngestellteListe().size()
+		
+		/*
+		 *KeyListener für txtTelefon zur Eingabeüberprüfung aller Felder hinzufügen 
+		 */
+		txtTelefon.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+			    String tex = txtTelefon.getText() ;
+			     int len = tex.length() ;
+
+			     if (len > 0)  // falls die Eingabe leer ist
+			     {
+			       char zeichen = tex.charAt(len-1) ;
+			       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+			       {			         
+			         // String berichtigen !!!!
+			         txtTelefon.setText(tex.substring(0, len-1));
+			       }
+			     }
+			     
+					/*
+					 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+					 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+					 * Es müssen alle Felder befüllt sein
+					 */
+			     String vorname = txtVorname.getText();
+			     String name = txtName.getText();
+			     String telefon = txtTelefon.getText();
+			     
+			     
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+						btnSpeicherNeuenAngestellten.setEnabled(true);
+					}
+					else {
+						btnSpeicherNeuenAngestellten.setEnabled(false);
+					}
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+			    String tex = txtTelefon.getText() ;
+			     int len = tex.length() ;
+
+			     if (len > 0)  // falls die Eingabe leer ist
+			     {
+			       char zeichen = tex.charAt(len-1) ;
+			       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+			       {			         
+			         // String berichtigen !!!!
+			         txtTelefon.setText(tex.substring(0, len-1));
+			       }
+			     }
+			     
+					/*
+					 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+					 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+					 * Es müssen alle Felder befüllt sein
+					 */
+			     String vorname = txtVorname.getText();
+			     String name = txtName.getText();
+			     String telefon = txtTelefon.getText();
+			     
+			     
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+						btnSpeicherNeuenAngestellten.setEnabled(true);
+					}
+					else {
+						btnSpeicherNeuenAngestellten.setEnabled(false);
+					}
+			     
+				}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+						
+			    String tex = txtTelefon.getText() ;
+			     int len = tex.length() ;
+
+			     if (len > 0)  // falls die Eingabe leer ist
+			     {
+			       char zeichen = tex.charAt(len-1) ;
+			       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+			       {			         
+			         // String berichtigen !!!!
+			         txtTelefon.setText(tex.substring(0, len-1));
+			       }
+			     }
+			}
+		});
+		
+		txtVorname.addKeyListener(new KeyListener(){
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);		
+		}
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);	
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);
+		}
+		
+	}
+
+});
+		
+		txtName.addKeyListener(new KeyListener(){
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);
+		}
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		/*
+		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+		 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+		 * Es müssen alle Felder befüllt sein
+		 */
+     String vorname = txtVorname.getText();
+     String name = txtName.getText();
+     String telefon = txtTelefon.getText();
+     
+     
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+			btnSpeicherNeuenAngestellten.setEnabled(true);
+		}
+		else {
+			btnSpeicherNeuenAngestellten.setEnabled(false);
+		}
+
+	}
+
+});
+		
+
+		
 		contentAddAngestellter.setVisible(true);
 		bearbeitenPane.setVisible(true);
 	}
 	
+	//Methode um die Werte eines neuen Angestellten an den Controller zu übergeben um einen neuen Angestellten zu  erzeugen
 	public void addNewAngestellter() {
+		
 		geburtsdatumNewAngestellter = ""+boxTag.getSelectedItem()+"."+boxMonat.getSelectedItem()+"."+boxJahr.getSelectedItem();
 		
 		String angestellter = lblAngestellter.getText();
@@ -539,15 +803,15 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 		//Aus dem Geschlecht eine Zahl im Stringformat generieren um diese ordnungsgemäß als Parameter zu übergeben
 		if(geschlecht == "Männlich") {
-			geschlecht = "1";
+			geschlecht = "0";
 		}
 		else {
-			geschlecht = "0";
+			geschlecht = "1";
 		}
 		
 		controller.createNewAngestellten(angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr);
+		removeListener();
 	}
-	
 	
 	//K - Ruft ein "Sicher löschen?"-Fenster beim klicken von "Angestellten entfernen" auf
 	public void showEntferneAngestelltenWindow() {
@@ -693,30 +957,55 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			 */
 			FirmaAngestellterEvent ppe = (FirmaAngestellterEvent) daten;
 			if (ppe.getType() == EventType.ADD) {
-				//Angestellter in die Angestellten-Liste aufnehmen			 
+				//Angestellter in die Angestellten-Liste (die auf der linken Seite angezeigt wird) aufnehmen			 
 				
 				mitarbeiter.removeAllElements();
-				for(int i=0; i<model.getAngestellteListe().size();i++) {
-					mitarbeiter.add(i, model.getAngestellteListe().get(i));
-				}
 				
-				System.out.println("FIRMAVIEW ADD = " + ppe.getData().getNr());
-				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getVorname());
-				System.out.println("FIRMAVIEW ADD = " +ppe.getData().getNachname());
+				//Überprüft ob es sich um einen gelöschten Eintrag handelt und übergibt das Objekt an die Mitarbeiterliste
+				for(int i=0; i<model.getAngestellteListe().size();i++) {
+					
+					AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
+					int indexnummer = mitarbeiter.getSize();
+					int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+					
+					if(telefon == 0) {
+						System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+					}
+					else {
+						mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
+						
+						//Systemausgabe
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNr());
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getVorname());
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNachname());
+					}
+				}
 				
 			}
 			else if (ppe.getType() == EventType.REMOVE) {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
 				mitarbeiter.removeAllElements();
+				
+				//Überprüft ob es sich um einen gelöschten Eintrag handelt und übergibt das Objekt an die Mitarbeiterliste
 				for(int i=0; i<model.getAngestellteListe().size();i++) {
-					mitarbeiter.add(i, model.getAngestellteListe().get(i));
+					
+					AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
+					int indexnummer = mitarbeiter.getSize();
+					int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
+					
+					if(telefon == 0) {
+						System.out.println("Es handelt sich bei diesem Objekt um einen gelöschten Mitarbeiter");
+					}
+					else {
+						mitarbeiter.add(indexnummer, model.getAngestellteListe().get(i));
+						
+						//Systemausgabe
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNr());
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getVorname());
+						System.out.println("FIRMAVIEW ADD = " +angestellterPrüfen.getNachname());
+					}
 				}
-				
-				
-				System.out.println("FIRMAVIEW REMOVE = " + ppe.getData().getNr());
-				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getVorname());
-				System.out.println("FIRMAVIEW REMOVE = " +ppe.getData().getNachname());
 
 			}
 		}
@@ -770,6 +1059,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 
+	public void removeListener() {
+		btnSpeicherNeuenAngestellten.removeActionListener(controller);
+		btnAbbrechen.removeActionListener(controller);
+	}
+	
 	public JButton  getBtnDateiLaden() {
 		return btnDateiLaden;
 	}
@@ -806,6 +1100,4 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		public JButton getBtnEntfernen() {
 		return btnEntfernen;
 	}
-	
-
 }
