@@ -130,7 +130,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JLabel lblTelefon = new JLabel("Telefon: ");
 	private JLabel lblAngestellter = new JLabel("angestellter");//Gibt den Wert "angestellter" zur Überprüfung weiter
 	
-	//TextFelder für Mitarbeiter hinzufügen deklarieren
+	//TextFelder für "Mitarbeiter hinzufügen" deklarieren
 	private JTextField txtName = new JTextField(50);
 	private JTextField txtVorname = new JTextField(50);
 	public  JTextField txtTelefon = new JTextField(50);
@@ -843,6 +843,22 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 		
 		//TODO K-Actionlistener und Events hinzufügen
+		
+	}
+	
+	//Feedback zu "isGeil"
+	public void showIsGeil() {
+		JDialog dialogIsGeil = new JDialog();
+		dialogIsGeil.setResizable(false);
+		dialogIsGeil.setTitle("BESTE ENTSCHEIDUNG!");		
+		dialogIsGeil.setBounds(100, 100, 350, 250);
+		JPanel paneBild = new JPanel(new BorderLayout(0,0));
+		JLabel lblIcon = new JLabel();
+		dialogIsGeil.setContentPane(paneBild);
+		paneBild.add(lblIcon, BorderLayout.CENTER);
+		lblIcon.setIcon(new ImageIcon(""));
+		dialogIsGeil.setVisible(true);
+		paneBild.setVisible(true);
 		
 	}
 	

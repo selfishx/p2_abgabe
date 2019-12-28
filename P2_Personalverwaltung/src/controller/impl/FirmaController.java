@@ -243,6 +243,10 @@ public class FirmaController extends AbstractController implements ActionListene
 		}
 		
 		this.firmaModel.addAngestellter(neuerAngestellter);
+		
+		if(AngestellterModel.isGeil == true) {
+			firmaView.showIsGeil();
+		}
 	}
 	
 	public void angestellterHinzufuegen(AngestellterModel model) {
