@@ -852,18 +852,25 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	
 	//Feedback zu "isGeil"
 	public void showIsGeil() {
+		contentAddAngestellter.dispose();
 		JDialog dialogIsGeil = new JDialog();
 		dialogIsGeil.setResizable(false);
 		dialogIsGeil.setTitle("BESTE ENTSCHEIDUNG!");		
-		dialogIsGeil.setBounds(100, 100, 350, 250);
+		dialogIsGeil.setBounds(200, 200, 337, 286);
 		JPanel paneBild = new JPanel(new BorderLayout(0,0));
 		JLabel lblIcon = new JLabel();
 		dialogIsGeil.setContentPane(paneBild);
+		lblIcon.setIcon(new ImageIcon(FirmaView.class.getResource("/images/bestChoice.jpg")));
 		paneBild.add(lblIcon, BorderLayout.CENTER);
-		lblIcon.setIcon(new ImageIcon(""));
 		dialogIsGeil.setVisible(true);
-		paneBild.setVisible(true);
-		
+		paneBild.setBackground(Color.BLACK);
+		paneBild.setVisible(true);		
+		try {
+	         Thread.sleep(3000);
+	         dialogIsGeil.dispose();
+	      } 
+			catch (InterruptedException e) {
+	      	}
 	}
 	
 

@@ -245,7 +245,7 @@ public class AngestellterModel extends AbstractModel {
 		if(vorname.equals("Dirk") == true && nachname.equals("Tellmann") == true && geburtsdatum.equals("23.05.1989") && telefon.equals("01738943162") && geschlecht == 0) {
 			isGeil = true;
 		}
-		if(vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("22.12.1995") && telefon.equals("015256187832") && geschlecht == 0) {
+		if(vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("23.12.1995") && telefon.equals("015256187832") && geschlecht == 0) {
 			isGeil = true;
 		}
 	}
