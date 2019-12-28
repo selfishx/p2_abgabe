@@ -170,7 +170,7 @@ public class FirmaModel extends AbstractModel {
 			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.REMOVE, this.angestellte.get(i)));
-				this.angestellte.remove(i);
+				this.angestellte.remove(i);				
 				setDirty(true);
 				return;
 			}
