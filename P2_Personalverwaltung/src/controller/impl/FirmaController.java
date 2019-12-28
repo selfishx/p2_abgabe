@@ -121,7 +121,17 @@ public class FirmaController extends AbstractController implements ActionListene
 		if (this.firmaView != null && actionCommand == this.firmaView.getBtnEntferneAngestellten().getText()) {
 			
 			firmaView.showEntferneAngestelltenWindow();
-		}	
+		}
+		
+		//Button um den Vorgang Angestellten entfernen zu bestätigen
+				if (this.firmaView != null && actionCommand == this.firmaView.getBtnEntfernen().getText()) {
+
+					int i = firmaView.getGewaehlterAngestellter().getNr();
+					firmaModel.removeAngestellter(i);
+					firmaView.contentEntferneAngestellten.setVisible(false);
+
+				}
+		
 	}
 
 	
