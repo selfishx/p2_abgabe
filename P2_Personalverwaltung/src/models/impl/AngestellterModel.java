@@ -61,6 +61,9 @@ public class AngestellterModel extends AbstractModel {
 
 	//Telefonnummer des Angestellten
 	private String telefon;
+	
+	//Beste Entscheidung für eine Einstellung!
+	public static boolean isGeil = false;
 
 
 	/**
@@ -223,6 +226,7 @@ public class AngestellterModel extends AbstractModel {
 		this.telefon = telefon;
 		setChanged();
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
+		setIsGeil();
 	}
 
 
@@ -237,6 +241,14 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
+	private void setIsGeil(){
+		if(vorname.equals("Dirk") == true && nachname.equals("Tellmann") == true && geburtsdatum.equals("23.05.1989") && telefon.equals("01738943162") && geschlecht == 0) {
+			isGeil = true;
+		}
+		if(vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("22.12.1995") && telefon.equals("015256187832") && geschlecht == 0) {
+			isGeil = true;
+		}
+	}
 	
 	/**
 	 * Angestellter-Objekte werden anhand ihres Familiennamens
