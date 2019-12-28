@@ -108,7 +108,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private AngestellterModel gewaehlterAngestellter;
 
 	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
-	public JDialog contentEntferneAngestellten = new JDialog();//Dialog für Angestellten entfernen
+	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
 	
 	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
@@ -828,7 +828,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		contentEntferneAngestellten.setResizable(false);
 		contentEntferneAngestellten.setTitle("Angestellten entfernen");		
 		contentEntferneAngestellten.setSize(420, 120);
-		contentEntferneAngestellten.setVisible(true);
 		
 		JLabel entfernenBestätigen = new JLabel ("Möchten Sie den ausgewählten Angestellten wirklich entfernen?");
 		contentEntferneAngestellten.add(entfernenBestätigen);
@@ -840,6 +839,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 		contentEntferneAngestellten.add(btnAbbrechen);
 		btnAbbrechen.setBounds(210, 55, 210, 30);
+		
+		JLabel leer = new JLabel();
+		contentEntferneAngestellten.add(leer);
+		
+		contentEntferneAngestellten.setVisible(true);
 		
 		
 		//TODO K-Actionlistener und Events hinzufügen
