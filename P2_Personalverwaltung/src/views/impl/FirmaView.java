@@ -836,9 +836,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 		contentEntferneAngestellten.add(btnEntfernen);
 		btnEntfernen.setBounds(0,55,210,30);
+		btnEntfernen.addActionListener(this.controller);
 		
 		contentEntferneAngestellten.add(btnAbbrechen);
 		btnAbbrechen.setBounds(210, 55, 210, 30);
+		btnAbbrechen.addActionListener(this.controller);
 		
 		JLabel leer = new JLabel();
 		contentEntferneAngestellten.add(leer);
@@ -846,9 +848,21 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		contentEntferneAngestellten.setVisible(true);
 		
 		
-		//TODO K-Actionlistener und Events hinzufügen
+		
 		
 	}
+	
+	//Methode um einen selektierten Angestellten zu entfernen
+		public void removeAngestellten() {
+
+
+
+
+			/*int i = listAngestellteListe.getSelectedIndex();
+			AngestellterModel angestellterEntfernen = model.getAngestellteListe().get(i);
+			angestellterEntfernen.setTelefon("0");*/
+		}
+
 	
 	//Feedback zu "isGeil"
 	public void showIsGeil() {
