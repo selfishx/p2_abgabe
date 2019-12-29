@@ -151,9 +151,15 @@ public class FirmaController extends AbstractController implements ActionListene
 				if (this.firmaView != null && actionCommand == this.firmaView.getBtnBestätigen().getText()) {
 					
 					int i = firmaView.getGewaehlterAngestellter().getNr();
-					firmaModel.changeAngestellterDaten(i);
-					firmaView.removeListener();
+					
+					String nachname = firmaView.txtName.getText();
+					String vorname = firmaView.txtVorname.getText();
+					String telefon = firmaView.txtTelefon.getText();
+					
+					firmaModel.changeAngestellterDaten(i, nachname, vorname, telefon);
 					firmaView.contentAddAngestellter.dispose();
+					firmaView.removeListener();
+					
 					
 					
 						
