@@ -233,8 +233,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		btnEntferneAngestellten = new JButton("Angestellten entfernen");
 		btnEntferneAngestellten.setIcon(new ImageIcon(FirmaView.class.getResource("/images/remove_angestellter.png")));
 		toolBar.add(btnEntferneAngestellten);
-		btnEntferneAngestellten.setEnabled(true);
-		
+		btnEntferneAngestellten.setEnabled(false);
 		//Weiterleiten der Aktion beim Mausklick an den Controller
 		btnEntferneAngestellten.addActionListener(this.controller);
 		
@@ -282,8 +281,16 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 				//Wenn ein Eintrag in der Termin-Tabelle selektiert wird und es sich dabei um das 
 				//letzte Event der Eventkette von Swing (valueIsAdjusting) handelt, wird der 
-				//"Termin Bearbeiten"-Button aktiviert und die Variable gewaehlterTermin mit dem 
+				//"Termin Bearbeiten"-Button und der "Angestellten entfernen"-Button aktiviert und die Variable gewaehlterTermin mit dem 
 				//selektierten Index belegt.
+				
+				if(listAngestellteListe.getSelectedIndex() > -1) {
+					btnEntferneAngestellten.setEnabled(true);
+				}
+				else {
+					btnEntferneAngestellten.setEnabled(false);
+				}
+				
 				if (FirmaView.this.listAngestellteListe.getSelectedIndex() > -1 && 
 						!event.getValueIsAdjusting()) {
 
@@ -296,24 +303,49 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					}
 					FirmaView.this.resetAngestellter();
 
-					//Anhand des selektierten Eintrages wird die erste (0-basiert!) Spalte 
-					//(AngestellteNr) ausgelesen
-					//Eine Schleife zählt die gelöschten Mitarbeiter und gibt den Wert an den SelectedIndex weiter.
+					/*
+					 * Anhand des selektierten Eintrages wird die erste (0-basiert!) Spalte 
+					 * (AngestellteNr) ausgelesen
+					 * Eine Schleife zählt die nicht gelöschten Mitarbeiter in der ArrayList angestellte (FirmaModel).
+					 * Für jeden gelöschten Mitarbeiter (Telefonnummer wird überprüft) wird der Wert "gelöschte" um eins erhöht.
+					 * Die Schleife läuft solange, bis die Anzahl der nicht gelöschten Mitarbeiter = des Wertes  getSelctedIndex() ist.
+					 * Der Wert gelöschte + getSelectedIndex() wird dannn im Wert angestellter gespeichert.
+					*/
 					
 					int gelöschte = 1;
-					
-					for(int i = 0; i <= FirmaView.this.listAngestellteListe.getSelectedIndex();i++) {
-						
-						AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
-						if(angestellterPrüfen.getTelefon().length()<=1) {
-							int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
-						
-							if(telefon == 0) {
-								gelöschte = gelöschte + 1;
+					int i = 0;
+					int k = 0;
+					int j = 0;
+											
+						while(i <= FirmaView.this.listAngestellteListe.getSelectedIndex()) {
+							
+							if(model.getAngestellteListe().get(j).getTelefon().length()<=1) {
+								int t = Integer.parseInt(model.getAngestellteListe().get(j).getTelefon());								
+								if(t == 0) {
+									k++;
+									while(k > j) {
+										
+										if(model.getAngestellteListe().get(j).getTelefon().length()<=1) {
+										t = Integer.parseInt(model.getAngestellteListe().get(j).getTelefon());
+										
+										if(t == 0) {
+											gelöschte++;
+											k++;
+											j++;
+										}
+										}
+										else {
+											k=j;
+										}	
+								}
 							}
+							}
+							i++;
+							k++;
+							j++;
 						}
-					}
-						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex() +gelöschte;
+
+						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex()+gelöschte;
 					
 
 					//Mittels des FirmaModel wird das passende AngestellterModel-Objekt
@@ -653,7 +685,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		txtVorname.addKeyListener(new KeyListener(){
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -675,7 +707,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -697,7 +729,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -718,12 +750,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 	}
 
-});
+		});
 		
 		txtName.addKeyListener(new KeyListener(){
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -745,7 +777,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -765,9 +797,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		}
 
 	}
-
+	
 	@Override
-	public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 		
 		/*
 		 * If else zur Überprüfung, ob etwas eingegeben wurde. 
@@ -788,7 +820,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	}
 
-});
+		});
 		
 
 		
@@ -1047,6 +1079,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				//Angestellter aus der Angestellten-Liste entfernen
 				
 				mitarbeiter.removeAllElements();
+				resetAngestellter();
+
 				
 				//Überprüft ob es sich um einen gelöschten Eintrag handelt und übergibt das Objekt an die Mitarbeiterliste
 				for(int i=0; i<model.getAngestellteListe().size();i++) {

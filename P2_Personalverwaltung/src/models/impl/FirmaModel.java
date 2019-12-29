@@ -168,10 +168,10 @@ public class FirmaModel extends AbstractModel {
 			//informiere die Listener über die Änderung
 			//und entferne dann den Angestellten
 			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
+				this.angestellte.get(i).setTelefon("0");
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.REMOVE, this.angestellte.get(i)));
 				//this.angestellte.remove(i);	
-				this.angestellte.get(i).setTelefon("0");
 				setDirty(true);
 				return;
 			}
