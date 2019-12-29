@@ -132,8 +132,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JLabel lblAngestellter = new JLabel("angestellter");//Gibt den Wert "angestellter" zur Überprüfung weiter
 	
 	//TextFelder für "Mitarbeiter hinzufügen" deklarieren
-	private JTextField txtName = new JTextField(50);
-	private JTextField txtVorname = new JTextField(50);
+	public JTextField txtName = new JTextField(50);
+	public JTextField txtVorname = new JTextField(50);
 	public  JTextField txtTelefon = new JTextField(50);
 	private JTextField txtAngestelltenNummer = new JTextField(50);
 	

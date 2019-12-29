@@ -178,19 +178,19 @@ public class FirmaModel extends AbstractModel {
 		}
 	}
 	
-	public void changeAngestellterDaten(int nummerAngestellter) {
+	public void changeAngestellterDaten(int nummerAngestellter, String nachname, String vorname, String telefon) {
 		for (int i = this.angestellte.size()-1; i>=0; i--) {
 			//Wenn der Patient gefunden wurde,
 			//informiere die Listener über die Änderung
 			//und entferne dann den Angestellten
 			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
-				this.angestellte.get(i).setNachname("klappt");
+				this.angestellte.get(i).setNachname(nachname);
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
-				this.angestellte.get(i).setVorname("klappt");
+				this.angestellte.get(i).setVorname(vorname);
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
-				this.angestellte.get(i).setTelefon("123456");
+				this.angestellte.get(i).setTelefon(telefon);
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
 				//this.angestellte.remove(i);	
