@@ -19,6 +19,8 @@ import models.impl.AngestellterModel;
 import models.impl.FirmaModel;
 import views.impl.FirmaView;
 import controller.AbstractController;
+import events.AbstractEvent.EventType;
+import events.impl.FirmaAngestellterEvent;
 
 /**
  * Diese Klasse repräsentiert die Logik der Firma. Alle Aktivitäten innerhalb
@@ -131,6 +133,30 @@ public class FirmaController extends AbstractController implements ActionListene
 					firmaModel.removeAngestellter(i);
 					firmaView.contentEntferneAngestellten.dispose();
 
+				}
+				
+				
+		//Angestellter Bearbeiten aktivieren
+				
+				if (this.firmaView != null && actionCommand == this.firmaView.getBtnAngestellterBearbeiten().getText()) {
+					
+					firmaView.showAngestelltenBearbeiten();
+					
+					
+						
+				}
+		
+		//Angestellter Bearbeiten bestätigen
+				
+				if (this.firmaView != null && actionCommand == this.firmaView.getBtnBestätigen().getText()) {
+					
+					int i = firmaView.getGewaehlterAngestellter().getNr();
+					firmaModel.changeAngestellterDaten(i);
+					firmaView.removeListener();
+					firmaView.contentAddAngestellter.dispose();
+					
+					
+						
 				}
 		
 	}

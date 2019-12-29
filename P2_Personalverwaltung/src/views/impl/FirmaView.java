@@ -109,6 +109,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
 	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
+	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten
 	
 	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
@@ -154,11 +155,27 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnSpeicherNeuenAngestellten = new JButton("Hinzufügen");//Neuen mitarbeiter hinzufügen im Dialog neuer Angestellter
 	private JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
 	private JButton btnEntfernen = new JButton("Entfernen");//Aktion Mitarbeiter entfernen bestätigen im Dialog Angestellten entfernen
+	private JButton btnBestätigen = new JButton("Bestätigen");//Aktion Mitarbeiter bearbeiten bestätigen im Dialog Angestellten bearbeiten
 	/*
 	 * Liste aller Angestellten, die bei einem EVENT update befüllt wird
 	 * Die Liste wird der JList listAngestellteListe übergeben
 	 */
 	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>(); 
+	
+	//Textfelder / Comboboxes für Mitarbeiter bearbeiten deklarieren
+	private JTextField txtNameBearbeiten = new JTextField(50);
+	private JTextField txtVornameBearbeiten = new JTextField(50);
+	private JComboBox<String> boxGeschlechtBearbeiten = new JComboBox<>();
+	private JComboBox<String> boxTagBearbeiten = new JComboBox<>();
+	private JComboBox<String> boxMonatBearbeiten = new JComboBox<>();
+	private JComboBox<String> boxJahrBearbeiten = new JComboBox<>();
+	public  JTextField txtTelefonBearbeiten = new JTextField(50);
+	
+	private String geburtsdatumBearbeiteAngestellten; //String Geburtsdatum zur Umwandlung aus der ComboBox
+		
+		
+	
+	
 	
 
 	/**
@@ -247,7 +264,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 		//Schaltfläche "Angestellter bearbeiten"
 		this.btnAngestellterBearbeiten = new JButton("Angestellter bearbeiten");
-		btnAngestellterBearbeiten.setBounds(496, 38, 121, 23);
+		btnAngestellterBearbeiten.setBounds(450, 38, 190, 23);
 		this.btnAngestellterBearbeiten.setEnabled(false);
 		this.btnAngestellterBearbeiten.addActionListener(this.controller);
 		
@@ -351,7 +368,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					//Mittels des FirmaModel wird das passende AngestellterModel-Objekt
 					//anhand der AngestellteNr geliefert.
 					AngestellterModel angestellter = FirmaView.this.model.getAngestellter(angestellteNr);
-
+					
 					//Befüllung der Felder mit den Werten des AngestellterModel-Objektes
 					FirmaView.this.lblAngestellteNrWert.setText(""+angestellter.getNr());
 					FirmaView.this.lblNameWert.setText(angestellter.getNachname());
@@ -480,7 +497,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	public void showAddMitarbeiterWindow() {
 		//Erzeugt das Bearbeitungsfenster
 		contentAddAngestellter.setResizable(false);
-		contentAddAngestellter.setTitle("Mitarbeiter hinzufügen");		
+		contentAddAngestellter.setTitle("Angestellten hinzufügen");		
 		contentAddAngestellter.setBounds(100, 100, 350, 250);
 		
 		JPanel bearbeitenPane = new JPanel();
@@ -884,16 +901,321 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 	}
 	
-	//Methode um einen selektierten Angestellten zu entfernen
-		public void removeAngestellten() {
+	//Methode um einen angestellten zu bearbeiten
+	
+	public void showAngestelltenBearbeiten() {
+		
+		//Erzeugt das Bearbeitungsfenster
+				contentAddAngestellter.setResizable(false);
+				contentAddAngestellter.setTitle("Angestellten bearbeiten");		
+				contentAddAngestellter.setBounds(100, 100, 350, 250);
+				
+				JPanel bearbeitenPane = new JPanel();
+				bearbeitenPane.setLayout(new BorderLayout(0,0));
+				contentAddAngestellter.setContentPane(bearbeitenPane);
+					
+				txtAngestelltenNummer.setEditable(false); //Verhindert das Bearbeiten des Feldes AngestelltenNr. Die Nummer wird automatisch generiert.	
+					
+				//Buttons Speichern und Abbrechen ActionListener
+				btnBestätigen.addActionListener(this.controller);
+				btnAbbrechen.addActionListener(this.controller);
+					
+				//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
+				
+				//Labels
+				lblVorname.setBounds(20, 30, 70, 15);
+				lblName.setBounds(20, 52, 70, 15);
+				lblGeburtstag.setBounds(20, 74, 70, 15);
+				lblGeschlecht.setBounds(20,96,70,15);
+				lblTelefon.setBounds(20, 118, 70, 15);
+				lblAngestelltenNr.setBounds(20, 140, 100, 15);	
+				bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
+				bearbeitenPane.add(lblName, BorderLayout.CENTER);
+				bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
+				bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
+				bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+				bearbeitenPane.add(lblGeschlecht);
+					
+				//Textfelder
+				txtVorname.setBounds(120, 30, 200, 19);
+				txtName.setBounds(120, 52, 200, 19);
+				txtTelefon.setBounds(120, 118, 200, 19);
+				txtAngestelltenNummer.setBounds(120, 140, 200, 19);
+				
+				bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
+				bearbeitenPane.add(txtName, BorderLayout.CENTER);
+				bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
+				bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
+					
+				//Geburtsdatum und Geschlecht
+				
+				bearbeitenPane.add(lblGeburtsdatumWert, BorderLayout.CENTER);
+				lblGeburtsdatumWert.setBounds(84, 74, 100, 18);
+				bearbeitenPane.add(lblGeschlechtWert, BorderLayout.CENTER);
+				lblGeschlechtWert.setBounds(84, 96, 86, 18);
+				
+				
+				//Buttons
+				btnBestätigen.setBounds(220, 170, 100, 20);
+				btnAbbrechen.setBounds(118, 170, 100, 20);
+				bearbeitenPane.add(btnBestätigen, BorderLayout.CENTER);
+				bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+				btnBestätigen.setEnabled(false);
+				
+				//Wert "angestellter" als Überprüfung
+				lblAngestellter.setVisible(false);
+				bearbeitenPane.add(lblAngestellter);
+				
+				//Textfields mit gespeicherten Werten befüllen
+				txtVorname.setText(lblVornameWert.getText());
+				txtName.setText(lblNameWert.getText());
+				txtTelefon.setText(lblTelefonWert.getText());
+				txtAngestelltenNummer.setText(lblAngestellteNrWert.getText());
+				
+				/*
+				 *KeyListener für txtTelefon zur Eingabeüberprüfung aller Felder hinzufügen 
+				 */
+				txtTelefon.addKeyListener(new KeyListener() {
+					
+					@Override
+					public void keyTyped(KeyEvent e) {
 
+					    String tex = txtTelefon.getText() ;
+					     int len = tex.length() ;
 
+					     if (len > 0)  // falls die Eingabe leer ist
+					     {
+					       char zeichen = tex.charAt(len-1) ;
+					       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+					       {			         
+					         // String berichtigen !!!!
+					         txtTelefon.setText(tex.substring(0, len-1));
+					       }
+					     }
+					     
+							/*
+							 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+							 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+							 * Es müssen alle Felder befüllt sein
+							 */
+					     String vorname = txtVorname.getText();
+					     String name = txtName.getText();
+					     String telefon = txtTelefon.getText();
+					     
+					     
+							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0){
+								btnBestätigen.setEnabled(true);
+							}
+							else {
+								btnBestätigen.setEnabled(false);
+							}
+						
+					}
+					
+					@Override
+					public void keyReleased(KeyEvent e) {
 
+					    String tex = txtTelefon.getText() ;
+					     int len = tex.length() ;
 
-			/*int i = listAngestellteListe.getSelectedIndex();
-			AngestellterModel angestellterEntfernen = model.getAngestellteListe().get(i);
-			angestellterEntfernen.setTelefon("0");*/
-		}
+					     if (len > 0)  // falls die Eingabe leer ist
+					     {
+					       char zeichen = tex.charAt(len-1) ;
+					       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+					       {			         
+					         // String berichtigen !!!!
+					         txtTelefon.setText(tex.substring(0, len-1));
+					       }
+					     }
+					     
+							/*
+							 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+							 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+							 * Es müssen alle Felder befüllt sein
+							 */
+					     String vorname = txtVorname.getText();
+					     String name = txtName.getText();
+					     String telefon = txtTelefon.getText();
+					     
+					     
+							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+								btnBestätigen.setEnabled(true);
+							}
+							else {
+								btnBestätigen.setEnabled(false);
+							}
+					     
+						}
+					
+					@Override
+					public void keyPressed(KeyEvent e) {
+								
+					    String tex = txtTelefon.getText() ;
+					     int len = tex.length() ;
+
+					     if (len > 0)  // falls die Eingabe leer ist
+					     {
+					       char zeichen = tex.charAt(len-1) ;
+					       if (! ( (zeichen >= '0') && (zeichen <= '9')))
+					       {			         
+					         // String berichtigen !!!!
+					         txtTelefon.setText(tex.substring(0, len-1));
+					       }
+					     }
+					}
+				});
+				
+				txtVorname.addKeyListener(new KeyListener(){
+
+			@Override
+					public void keyTyped(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);		
+				}
+				
+			}
+
+			@Override
+					public void keyPressed(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);	
+				}
+				
+			}
+
+			@Override
+					public void keyReleased(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);
+				}
+				
+			}
+
+				});
+				
+				txtName.addKeyListener(new KeyListener(){
+
+			@Override
+					public void keyTyped(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);
+				}
+				
+			}
+
+			@Override
+					public void keyPressed(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);
+				}
+
+			}
+			
+			@Override
+					public void keyReleased(KeyEvent e) {
+				
+				/*
+				 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+				 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+				 * Es müssen alle Felder befüllt sein
+				 */
+		     String vorname = txtVorname.getText();
+		     String name = txtName.getText();
+		     String telefon = txtTelefon.getText();
+		     
+		     
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					btnBestätigen.setEnabled(true);
+				}
+				else {
+					btnBestätigen.setEnabled(false);
+				}
+
+			}
+
+				});
+				
+
+				
+				contentAddAngestellter.setVisible(true);
+				bearbeitenPane.setVisible(true);
+			}
+		
+		
+
+		
+		
+	
 
 	
 	//Feedback zu "isGeil"
@@ -1205,5 +1527,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Entfernen-Button im Dialog "Angestellten entfernen"
 		public JButton getBtnEntfernen() {
 		return btnEntfernen;
+	}
+		
+	public JButton getBtnBestätigen() {
+		return btnBestätigen;
 	}
 }

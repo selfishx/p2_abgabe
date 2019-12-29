@@ -177,6 +177,30 @@ public class FirmaModel extends AbstractModel {
 			}
 		}
 	}
+	
+	public void changeAngestellterDaten(int nummerAngestellter) {
+		for (int i = this.angestellte.size()-1; i>=0; i--) {
+			//Wenn der Patient gefunden wurde,
+			//informiere die Listener über die Änderung
+			//und entferne dann den Angestellten
+			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
+				this.angestellte.get(i).setNachname("klappt");
+				setChanged();
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
+				this.angestellte.get(i).setVorname("klappt");
+				setChanged();
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
+				this.angestellte.get(i).setTelefon("123456");
+				setChanged();
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
+				//this.angestellte.remove(i);	
+				setDirty(true);
+				return;
+			}
+		}
+	}
+	
+	
 
 
 	/**
