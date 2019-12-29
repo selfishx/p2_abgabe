@@ -301,19 +301,39 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					//Eine Schleife zählt die gelöschten Mitarbeiter und gibt den Wert an den SelectedIndex weiter.
 					
 					int gelöschte = 1;
+					int i = 0;
+					int k = 0;
+					int j = 0;
 					
-					for(int i = 0; i <= FirmaView.this.listAngestellteListe.getSelectedIndex();i++) {
+					//for(int i = 0; i <= FirmaView.this.listAngestellteListe.getSelectedIndex();i++) {
 						
-						AngestellterModel angestellterPrüfen = model.getAngestellteListe().get(i);
-						if(angestellterPrüfen.getTelefon().length()<=1) {
-							int telefon = Integer.parseInt(angestellterPrüfen.getTelefon());
-						
-							if(telefon == 0) {
-								gelöschte = gelöschte + 1;
+						while(i <= FirmaView.this.listAngestellteListe.getSelectedIndex()) {
+							
+							if(model.getAngestellteListe().get(j).getTelefon().length()<=1) {
+								int t = Integer.parseInt(model.getAngestellteListe().get(j).getTelefon());								
+								if(t == 0) {
+									k++;
+									while(k > j) {
+										
+										t = Integer.parseInt(model.getAngestellteListe().get(j).getTelefon());
+										
+										if(t == 0) {
+											gelöschte++;
+											k++;
+											j++;
+										}
+										else {
+											k=j;
+										}	
+									}
+								}
 							}
+							i++;
+							k++;
+							j++;
 						}
-					}
-						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex() +gelöschte;
+
+						int angestellteNr = FirmaView.this.listAngestellteListe.getSelectedIndex()+gelöschte;
 					
 
 					//Mittels des FirmaModel wird das passende AngestellterModel-Objekt
