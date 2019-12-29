@@ -129,7 +129,7 @@ public class FirmaController extends AbstractController implements ActionListene
 
 					int i = firmaView.getGewaehlterAngestellter().getNr();
 					firmaModel.removeAngestellter(i);
-					firmaView.contentEntferneAngestellten.setVisible(false);
+					firmaView.contentEntferneAngestellten.dispose();
 
 				}
 		
