@@ -139,10 +139,8 @@ public class FirmaController extends AbstractController implements ActionListene
 		//Angestellter Bearbeiten aktivieren
 				
 				if (this.firmaView != null && actionCommand == this.firmaView.getBtnAngestellterBearbeiten().getText()) {
-					
-					firmaView.showAngestelltenBearbeiten();
-					
-					
+										
+					firmaView.showAngestelltenBearbeiten();					
 						
 				}
 		
@@ -159,10 +157,7 @@ public class FirmaController extends AbstractController implements ActionListene
 					firmaModel.changeAngestellterDaten(i, nachname, vorname, telefon);
 					firmaView.contentAddAngestellter.dispose();
 					firmaView.removeListener();
-					
-					
-					
-						
+																					
 				}
 		
 	}
