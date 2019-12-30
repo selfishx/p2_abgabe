@@ -107,7 +107,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-	public JDialog contentAddAngestellter = new JDialog();//Dialog für Angestellter hinzufügen
+	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
 	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
 	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten
 	
