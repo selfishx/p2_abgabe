@@ -1245,24 +1245,66 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Feedback zu "isGeil"
 	public void showIsGeil() {
 		contentAddAngestellter.dispose();
-		JDialog dialogIsGeil = new JDialog();
-		dialogIsGeil.setResizable(false);
-		dialogIsGeil.setTitle("BESTE ENTSCHEIDUNG!");		
-		dialogIsGeil.setBounds(200, 200, 337, 286);
-		JPanel paneBild = new JPanel(new BorderLayout(0,0));
-		JLabel lblIcon = new JLabel();
-		dialogIsGeil.setContentPane(paneBild);
-		lblIcon.setIcon(new ImageIcon(FirmaView.class.getResource("/images/bestChoice.jpg")));
-		paneBild.add(lblIcon, BorderLayout.CENTER);
-		dialogIsGeil.setVisible(true);
-		paneBild.setBackground(Color.BLACK);
-		paneBild.setVisible(true);		
-		try {
-	         Thread.sleep(3000);
-	         dialogIsGeil.dispose();
+		AngestellterModel.isGeil = false;
+
+		JDialog isGeil = new JDialog(this, true);
+		isGeil.setResizable(false);
+ 		isGeil.setTitle("Good Job!");
+ 		isGeil.setBounds(100,100,335, 305);
+
+ 		JLabel bestChoice = new JLabel();
+ 		bestChoice.setIcon(new ImageIcon(FirmaView.class.getResource("/images/bestChoice.jpg")));
+ 		isGeil.add(bestChoice);
+ 		bestChoice.setVisible(true);
+ 		bestChoice.setBounds(0,-10,335,300);
+
+		isGeil.setVisible(true);
+
+		/*try {
+	        
+	 		Thread.sleep(3000);
+	 		test.dispose();
+	        
 	      } 
 			catch (InterruptedException e) {
 	      	}
+ 		*/
+
+}
+	
+	public void showIsGeil2() {
+		
+		contentAddAngestellter.dispose();
+		AngestellterModel.isGeil2 = false;
+
+		JDialog isGeil = new JDialog(this, true);
+		isGeil.setResizable(false);
+ 		isGeil.setTitle("Good Job!");
+ 		isGeil.setBounds(100,100,335, 305);
+
+ 		JLabel bestChoice = new JLabel();
+ 		bestChoice.setIcon(new ImageIcon(FirmaView.class.getResource("/images/hackerman.jpg")));
+ 		isGeil.add(bestChoice);
+ 		bestChoice.setVisible(true);
+ 		bestChoice.setBounds(0,-10,335,300);
+
+		isGeil.setVisible(true);
+
+		/*try {
+	        
+	 		Thread.sleep(3000);
+	 		test.dispose();
+	        
+	      } 
+			catch (InterruptedException e) {
+	      	}
+	}
+ 		*/
+
+
+
+
+		
 	}
 	
 
