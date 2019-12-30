@@ -107,7 +107,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
+	public JDialog contentAddAngestellter = new JDialog();//Dialog für Angestellter hinzufügen
 	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
 	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten
 	
@@ -637,7 +637,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			     String telefon = txtTelefon.getText();
 			     
 			     
-					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0){
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1){
 						btnSpeicherNeuenAngestellten.setEnabled(true);
 					}
 					else {
@@ -672,7 +672,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			     String telefon = txtTelefon.getText();
 			     
 			     
-					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 						btnSpeicherNeuenAngestellten.setEnabled(true);
 					}
 					else {
@@ -696,6 +696,22 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			         txtTelefon.setText(tex.substring(0, len-1));
 			       }
 			     }
+					/*
+					 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+					 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+					 * Es müssen alle Felder befüllt sein
+					 */
+			     String vorname = txtVorname.getText();
+			     String name = txtName.getText();
+			     String telefon = txtTelefon.getText();
+			     
+			     
+					if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
+						btnSpeicherNeuenAngestellten.setEnabled(true);
+					}
+					else {
+						btnSpeicherNeuenAngestellten.setEnabled(false);
+					}
 			}
 		});
 		
@@ -714,7 +730,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -736,7 +752,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -758,7 +774,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -784,7 +800,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -806,7 +822,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -828,7 +844,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
      String telefon = txtTelefon.getText();
      
      
-		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+		if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 			btnSpeicherNeuenAngestellten.setEnabled(true);
 		}
 		else {
@@ -1001,9 +1017,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					     String vorname = txtVorname.getText();
 					     String name = txtName.getText();
 					     String telefon = txtTelefon.getText();
+					
 					     
-					     
-							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0){
+							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1){								
 								btnBestätigen.setEnabled(true);
 							}
 							else {
@@ -1035,10 +1051,10 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 							 */
 					     String vorname = txtVorname.getText();
 					     String name = txtName.getText();
-					     String telefon = txtTelefon.getText();
+					     String telefon = ""+txtTelefon.getText();
 					     
 					     
-							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 								btnBestätigen.setEnabled(true);
 							}
 							else {
@@ -1062,6 +1078,23 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					         txtTelefon.setText(tex.substring(0, len-1));
 					       }
 					     }
+					     
+							/*
+							 * If else zur Überprüfung, ob etwas eingegeben wurde. 
+							 * Vorher wird der Hinzufügen-Butten false gesetzt. 
+							 * Es müssen alle Felder befüllt sein
+							 */
+					     String vorname = txtVorname.getText();
+					     String name = txtName.getText();
+					     String telefon = ""+txtTelefon.getText();
+					     
+					     
+							if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1){								
+								btnBestätigen.setEnabled(true);
+							}
+							else {
+								btnBestätigen.setEnabled(false);
+							}						
 					}
 				});
 				
@@ -1080,7 +1113,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1102,7 +1135,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1124,7 +1157,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1150,7 +1183,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1172,7 +1205,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1194,7 +1227,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		     String telefon = txtTelefon.getText();
 		     
 		     
-				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 0) {
+				if(vorname.length() > 0 && name.length() > 0 && telefon.length() > 1) {
 					btnBestätigen.setEnabled(true);
 				}
 				else {
@@ -1204,20 +1237,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			}
 
 				});
-				
-
-				
+						
 				contentAddAngestellter.setVisible(true);
 				bearbeitenPane.setVisible(true);
 			}
 		
-		
-
-		
-		
-	
-
-	
 	//Feedback zu "isGeil"
 	public void showIsGeil() {
 		contentAddAngestellter.dispose();
