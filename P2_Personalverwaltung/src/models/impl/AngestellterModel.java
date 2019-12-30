@@ -243,6 +243,10 @@ public class AngestellterModel extends AbstractModel {
 	}
 
 	private void setIsGeil(){
+		
+		isGeil = false;
+		isGeil2 = false;
+		
 		if(vorname.equals("Dirk") == true && nachname.equals("Tellmann") == true && geburtsdatum.equals("23.05.1989") && telefon.equals("01738943162") && geschlecht == 0) {
 			isGeil = true;
 		}

@@ -107,7 +107,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	//Verweis auf den derzeit ausgewählten und dargestellten Angestellten
 	private AngestellterModel gewaehlterAngestellter;
 
-	public JDialog contentAddAngestellter = new JDialog(this, true);//Dialog für Angestellter hinzufügen
+	public JDialog contentAddAngestellter = new JDialog(this,true);//Dialog für Angestellter hinzufügen
 	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
 	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten
 	
@@ -1244,8 +1244,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 	//Feedback zu "isGeil"
 	public void showIsGeil() {
+		
 		contentAddAngestellter.dispose();
-		AngestellterModel.isGeil = false;
 
 		JDialog isGeil = new JDialog(this, true);
 		isGeil.setResizable(false);
@@ -1275,7 +1275,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	public void showIsGeil2() {
 		
 		contentAddAngestellter.dispose();
-		AngestellterModel.isGeil2 = false;
 
 		JDialog isGeil = new JDialog(this, true);
 		isGeil.setResizable(false);
