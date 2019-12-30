@@ -64,6 +64,7 @@ public class AngestellterModel extends AbstractModel {
 	
 	//Beste Entscheidung für eine Einstellung!
 	public static boolean isGeil = false;
+	public static boolean isGeil2 = false;
 
 
 	/**
@@ -247,6 +248,9 @@ public class AngestellterModel extends AbstractModel {
 		}
 		if(vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("23.12.1995") && telefon.equals("015256187832") && geschlecht == 0) {
 			isGeil = true;
+		}
+		if(vorname.equals("Jens") == true && nachname.equals("Sterk") == true && geburtsdatum.equals("20.07.1985") && geschlecht == 0) {
+			isGeil2 = true;
 		}
 	}
 	
