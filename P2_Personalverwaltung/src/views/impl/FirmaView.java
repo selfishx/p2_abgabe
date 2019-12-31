@@ -136,6 +136,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	public JTextField txtVorname = new JTextField(50);
 	public  JTextField txtTelefon = new JTextField(50);
 	private JTextField txtAngestelltenNummer = new JTextField(50);
+	private JTextField txtGeburtsdatum = new JTextField(50);
+	private JTextField txtGeschlecht = new JTextField(50);
 	
 	private String geburtsdatumNewAngestellter; //String Geburtsdatum zur Umwandlung aus der ComboBox
 	
@@ -855,8 +857,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 		});
 		
-
-		
 		contentAddAngestellter.setVisible(true);
 		bearbeitenPane.setVisible(true);
 	}
@@ -911,11 +911,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		contentEntferneAngestellten.add(leer);
 		
 		contentEntferneAngestellten.setVisible(true);
-		
-		
-		
-		
+			
 	}
+	
 	
 	//Methode um einen angestellten zu bearbeiten
 	
@@ -957,19 +955,19 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				txtName.setBounds(120, 52, 200, 19);
 				txtTelefon.setBounds(120, 118, 200, 19);
 				txtAngestelltenNummer.setBounds(120, 140, 200, 19);
+				txtGeburtsdatum.setBounds(120, 74, 200, 19);
+				txtGeschlecht.setBounds(120, 96, 200, 19);
+				
+				//Geburtstag und Geschlecht sollen nicht editierbar sein, da solche Änderungen häufiger ungewollt als gewollt passieren...
+				txtGeburtsdatum.setEditable(false);
+				txtGeschlecht.setEditable(false);
 				
 				bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
 				bearbeitenPane.add(txtName, BorderLayout.CENTER);
 				bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
 				bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
-					
-				//Geburtsdatum und Geschlecht
-				
-				bearbeitenPane.add(lblGeburtsdatumWert, BorderLayout.CENTER);
-				lblGeburtsdatumWert.setBounds(84, 74, 100, 18);
-				bearbeitenPane.add(lblGeschlechtWert, BorderLayout.CENTER);
-				lblGeschlechtWert.setBounds(84, 96, 86, 18);
-				
+				bearbeitenPane.add(txtGeburtsdatum, BorderLayout.CENTER);
+				bearbeitenPane.add(txtGeschlecht, BorderLayout.CENTER);
 				
 				//Buttons
 				btnBestätigen.setBounds(220, 170, 100, 20);
@@ -987,6 +985,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				txtName.setText(lblNameWert.getText());
 				txtTelefon.setText(lblTelefonWert.getText());
 				txtAngestelltenNummer.setText(lblAngestellteNrWert.getText());
+				txtGeburtsdatum.setText(lblGeburtsdatumWert.getText());
+				txtGeschlecht.setText(lblGeschlechtWert.getText());
 				
 				/*
 				 *KeyListener für txtTelefon zur Eingabeüberprüfung aller Felder hinzufügen 
