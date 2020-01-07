@@ -32,7 +32,9 @@ public class FirmaModel extends AbstractModel {
 	
 	//Liste der Angestellten, die von der Software verwaltet werden
 	private final ArrayList<AngestellterModel> angestellte;
-
+	
+	//Liste der Gehälter die von der Software verwaltet werden
+	private final ArrayList<Float> gehaltsliste;
 	
 	/**
 	 * Erzeugt ein Objekt zur Speicherung von Daten, die für eine Firma relevant sind.
@@ -41,6 +43,7 @@ public class FirmaModel extends AbstractModel {
 	public FirmaModel() {
 		this.name = "";
 		this.angestellte = new ArrayList<AngestellterModel>(); //vor Benutzung initialisieren!
+		this.gehaltsliste = new ArrayList<Float>();
 		setDirty(false);
 	}
 
@@ -58,6 +61,15 @@ public class FirmaModel extends AbstractModel {
 		setDirty(true);
 	}
 	
+	//fügt der Gehaltsliste die Gehälter aus der CSV Datei hinzu
+	public void addGehaltsListe(float info){
+		gehaltsliste.add(info);
+	}
+	
+	//erhalte den Wert des ausgewählten Index der Gehaltsliste
+	public float getGehaltIndex(int index) {
+		return gehaltsliste.get(index);
+	}
 
 	/**
 	 * Liefert die eigene Objektinstanz zurück
@@ -77,7 +89,7 @@ public class FirmaModel extends AbstractModel {
 	 * 
 	 * @return Nächste freie Angestellten-Nr
 	 */
-	public int getNaechstePatientNr() {
+	public int getNaechsteAngestelltenNr() {
 		int zwischenspeicher = 0;
 		for (int i = 0; i < this.angestellte.size(); i++) {
 			AngestellterModel patient = this.angestellte.get(i);
@@ -144,7 +156,7 @@ public class FirmaModel extends AbstractModel {
 		return tmpAngestellte;
 	}
 
-
+	
 	/**
 	 * Liefert den Status, ob das Model verändert wurde
 	 * und daher gespeichert werden muss
@@ -178,11 +190,11 @@ public class FirmaModel extends AbstractModel {
 		}
 	}
 	
-	public void changeAngestellterDaten(int nummerAngestellter, String nachname, String vorname, String telefon) {
+	public void changeAngestellterDaten(int nummerAngestellter, String nachname, String vorname, String telefon, String gehaltsgruppe, String erfahrungsstufe) {
 		for (int i = this.angestellte.size()-1; i>=0; i--) {
 			//Wenn der Patient gefunden wurde,
 			//informiere die Listener über die Änderung
-			//und entferne dann den Angestellten
+			//und aktualisiere dann den Angestellten
 			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
 				this.angestellte.get(i).setNachname(nachname);
 				setChanged();
@@ -193,7 +205,12 @@ public class FirmaModel extends AbstractModel {
 				this.angestellte.get(i).setTelefon(telefon);
 				setChanged();
 				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
-				//this.angestellte.remove(i);	
+				this.angestellte.get(i).setGehaltsgruppe(Integer.parseInt(gehaltsgruppe));
+				setChanged();
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
+				this.angestellte.get(i).setErfahrungsstufe(Integer.parseInt(erfahrungsstufe));
+				setChanged();
+				this.notifyObservers(new FirmaAngestellterEvent(EventType.UPDATE, this.angestellte.get(i)));
 				setDirty(true);
 				return;
 			}

@@ -65,6 +65,15 @@ public class AngestellterModel extends AbstractModel {
 	//Beste Entscheidung für eine Einstellung!
 	public static boolean isGeil = false;
 	public static boolean isGeil2 = false;
+	
+	//Erfahrungsstufe des Angestellten (Gibt Auskunft über die Zeit die der Angestellte bereits im Betrieb arbeitet)
+	private int erfahrungsStufe;
+	
+	//Gehaltsgruppe des Angestellten
+	private int gehaltsGruppe;
+	
+	//Gehalt des Angestellten
+	private float gehalt;
 
 
 	/**
@@ -146,8 +155,25 @@ public class AngestellterModel extends AbstractModel {
 	public String getVorname() {
 		return this.vorname;
 	}
+	
+	/**
+	 * Liefert die Erfahrungsstufe des Angestellten
+	 * 
+	 * @return Erfahrungsstufe des Angestellten
+	 */
+	public int getErfahrungsstufe() {
+		return this.erfahrungsStufe;
+	}
+	/**
+	 * Liefert die Gehaltsgruppe des Angestellten
+	 * 
+	 * @return Gehaltsgruppe des Angestellten
+	 */
+	public int getGehaltsgruppe() {
+		return this.gehaltsGruppe;
+	}
 
-
+	
 	/**
 	 * Setzt das Geburtsdatum des Angestellten.
 	 * Wird ein ungültiges Datum eingegeben, wird eine Exception erzeugt und zurückgeliefert.
@@ -241,7 +267,189 @@ public class AngestellterModel extends AbstractModel {
 		setChanged();
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
+	
+	/**
+	 * Setzt die Gehaltsgruppe des Angestellten.
+	 * 
+	 * @param gehaltsGruppe Gehaltsgruppe
+	 */
+	public void setGehaltsgruppe(int gehaltsGruppe) {
+		this.gehaltsGruppe = gehaltsGruppe;
+		setChanged();
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
+	}
+	
+	/**
+	 * Setzt die Erfahrungsstufe des Angestellten.
+	 * 
+	 * @param erfahrungsStufe Erfahrungsstufe
+	 */
+	public void setErfahrungsstufe(int erfahrungsStufe) {
+		this.erfahrungsStufe = erfahrungsStufe;
+		setChanged();
+		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
+	}
+	
+	/**
+	 * Setzt das Gehalt des Angestellten.
+	 * 
+	 * @param  Erfahrungsstufe und Gehaltsgruppe
+	 */
+	public int getGehaltIndex(int gehaltsGruppe, int erfahrungsStufe) {
+			
+		this.gehaltsGruppe = gehaltsGruppe;
+		this.erfahrungsStufe = erfahrungsStufe;
+		int i = 0;
+		
+		if(gehaltsGruppe == 1) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 0;
+				break;
+			case 2:
+				i = 1;
+				break;
+			case 3:
+				i = 2;
+				break;
+			case 4:
+				i = 3;
+				break;
+			case 5:
+				i = 4;
+				break;
+			case 6:
+				i = 5;
+				break;
+			}
+		}
+		
+		else if(gehaltsGruppe == 2) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 6;
+				break;
+			case 2:
+				i = 7;
+				break;
+			case 3:
+				i = 8;
+				break;
+			case 4:
+				i = 9;
+				break;
+			case 5:
+				i = 10;
+				break;
+			case 6:
+				i = 11;
+				break;
+			}
+		}
+		
+		else if(gehaltsGruppe == 3) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 12;
+				break;
+			case 2:
+				i = 13;
+				break;
+			case 3:
+				i = 14;
+				break;
+			case 4:
+				i = 15;
+				break;
+			case 5:
+				i = 16;
+				break;
+			case 6:
+				i = 17;
+				break;		
+			}
+		}
+		
+		else if(gehaltsGruppe == 4) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 18;
+				break;
+			case 2:
+				i = 19;
+				break;
+			case 3:
+				i = 20;
+				break;
+			case 4:
+				i = 21;
+				break;
+			case 5:
+				i = 22;
+				break;
+			case 6:
+				i = 23;
+				break;
+			}
+		}
+		
+		else if(gehaltsGruppe == 5) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 24;
+				break;
+			case 2:
+				i = 25;
+				break;
+			case 3:
+				i = 26;
+				break;
+			case 4:
+				i = 27;
+				break;
+			case 5:
+				i = 28;
+				break;
+			case 6:
+				i = 29;
+				break;
+			}
+		}
+		
+		else if(gehaltsGruppe == 6) {
+			switch(erfahrungsStufe) {
+			case 1:
+				i = 30;
+				break;
+			case 2:
+				i = 31;
+				break;
+			case 3:
+				i = 32;
+				break;
+			case 4:
+				i = 33;
+				break;
+			case 5:
+				i = 34;
+				break;
+			case 6:
+				i = 35;
+				break;
+			}
+		}
+		
+		return i;
+	}
+	
+	public void setGehalt(float gehalt) {
+		this.gehalt = gehalt;
+	}
 
+	public float getGehalt() {
+		return gehalt;
+	}
+	
 	private void setIsGeil(){
 		
 		isGeil = false;

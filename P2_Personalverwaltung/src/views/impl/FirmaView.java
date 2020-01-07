@@ -109,18 +109,17 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	public JDialog contentAddAngestellter = new JDialog(this,true);//Dialog für Angestellter hinzufügen
 	public JDialog contentEntferneAngestellten = new JDialog(this,true);//Dialog für Angestellten entfernen
-	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten
-	
+	public JDialog contentBearbeiteAngestellten = new JDialog(this,true);//Dialog für Angestellten bearbeiten	
 	
 	private JLabel lblAngestellteNrWert;	  //Feld zur Anzeige der Angestellten-Nr
 	private JLabel lblNameWert;			  //Feld zur Anzeige des Angestellten-Namen
 	private JLabel lblVornameWert;		  //Feld zur Anzeige des Angestellten-Vornamen
 	private JLabel lblGeschlechtWert;	  //Feld zur Anzeige des Angestellten-Geschlechts
 	private JLabel lblGeburtsdatumWert;	  //Feld zur Anzeige des Angestellten-Geburtsdatum
-	private JLabel lblStrasseWert;		  //Feld zur Anzeige der Angestellten-Straße
-	private JLabel lblPlzWert;			  //Feld zur Anzeige der Angestellten-PLZ
-	private JLabel lblOrtWert;			  //Feld zur Anzeige der Angestellten-Stadt
 	private JLabel lblTelefonWert;		  //Feld zur Anzeige der Angestellten-Telefonnummer
+	private JLabel lblGehaltsgruppeWert;  //Feld zur Anzeige der Gehaltsstufe
+	private JLabel lblErfahrungsstufeWert;//Feld zur Anzeige der Erfahrungsstufe
+	private JLabel lblGehaltWert;		  //Feld zur Anzeige des Gehalts
 	
 	//AnzeigeLabels für Mitarbeiter hinzufügen deklarieren und initialisieren
 	private JLabel lblName = new JLabel("Name: ");
@@ -129,6 +128,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JLabel lblGeschlecht = new JLabel("Geschlecht: ");
 	private JLabel lblAngestelltenNr = new JLabel("AngestelltenNr.: "); //Wird automatisch ermittelt
 	private JLabel lblTelefon = new JLabel("Telefon: ");
+	private JLabel lblGehaltsgruppe = new JLabel("Gehaltsgrp.: ");
+	private JLabel lblErfahrungsstufe = new JLabel("Erfahrungsst.: ");
 	private JLabel lblAngestellter = new JLabel("angestellter");//Gibt den Wert "angestellter" zur Überprüfung weiter
 	
 	//TextFelder für "Mitarbeiter hinzufügen" deklarieren
@@ -146,6 +147,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JComboBox<String> boxMonat = new JComboBox<>();
 	private JComboBox<String> boxJahr = new JComboBox<>();
 	private JComboBox<String> boxGeschlecht = new JComboBox<>();
+	public JComboBox<String> boxGehaltsgruppe = new JComboBox<>();
+	public JComboBox<String> boxErfahrungsstufe = new JComboBox<>();
 
 	private JList<AngestellterModel> listAngestellteListe;	  	//Liste aller Angestellten der Firma
 	
@@ -158,6 +161,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
 	private JButton btnEntfernen = new JButton("Entfernen");//Aktion Mitarbeiter entfernen bestätigen im Dialog Angestellten entfernen
 	private JButton btnBestätigen = new JButton("Bestätigen");//Aktion Mitarbeiter bearbeiten bestätigen im Dialog Angestellten bearbeiten
+	private JButton btnGehalt;   //Schaltfläche Gehalt einesehen
+	
 	/*
 	 * Liste aller Angestellten, die bei einem EVENT update befüllt wird
 	 * Die Liste wird der JList listAngestellteListe übergeben
@@ -165,15 +170,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>(); 
 	
 	//Textfelder / Comboboxes für Mitarbeiter bearbeiten deklarieren
-	private JTextField txtNameBearbeiten = new JTextField(50);
-	private JTextField txtVornameBearbeiten = new JTextField(50);
-	private JComboBox<String> boxGeschlechtBearbeiten = new JComboBox<>();
-	private JComboBox<String> boxTagBearbeiten = new JComboBox<>();
-	private JComboBox<String> boxMonatBearbeiten = new JComboBox<>();
-	private JComboBox<String> boxJahrBearbeiten = new JComboBox<>();
 	public  JTextField txtTelefonBearbeiten = new JTextField(50);
-	
-	private String geburtsdatumBearbeiteAngestellten; //String Geburtsdatum zur Umwandlung aus der ComboBox
+
 		
 		
 	
@@ -256,8 +254,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		//Weiterleiten der Aktion beim Mausklick an den Controller
 		btnEntferneAngestellten.addActionListener(this.controller);
 		
-		
-
 		//"Speichern"-Button
 		this.btnDateiSpeichern = new JButton("Speichern");
 		this.btnDateiSpeichern.setIcon(new ImageIcon(FirmaView.class.getResource("/images/datei_speichern.png")));
@@ -265,8 +261,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		this.btnDateiSpeichern.setEnabled(false);
 
 		//Schaltfläche "Angestellter bearbeiten"
-		this.btnAngestellterBearbeiten = new JButton("Angestellter bearbeiten");
-		btnAngestellterBearbeiten.setBounds(450, 38, 190, 23);
+		this.btnAngestellterBearbeiten = new JButton("Angestellten bearbeiten");
+		btnAngestellterBearbeiten.setBounds(440, 38, 190, 23);
 		this.btnAngestellterBearbeiten.setEnabled(false);
 		this.btnAngestellterBearbeiten.addActionListener(this.controller);
 		
@@ -297,7 +293,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
-
+				
 				//Wenn ein Eintrag in der Termin-Tabelle selektiert wird und es sich dabei um das 
 				//letzte Event der Eventkette von Swing (valueIsAdjusting) handelt, wird der 
 				//"Termin Bearbeiten"-Button und der "Angestellten entfernen"-Button aktiviert und die Variable gewaehlterTermin mit dem 
@@ -371,6 +367,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					//anhand der AngestellteNr geliefert.
 					AngestellterModel angestellter = FirmaView.this.model.getAngestellter(angestellteNr);
 					
+					//Sobald ein Eintrag ausgewählt wird, wird das Gehalt des Angestellten berechnet und geladen
+					lblGehaltWert.setText(""+controller.gehaltLaden(angestellter));
+					
 					//Befüllung der Felder mit den Werten des AngestellterModel-Objektes
 					FirmaView.this.lblAngestellteNrWert.setText(""+angestellter.getNr());
 					FirmaView.this.lblNameWert.setText(angestellter.getNachname());
@@ -378,6 +377,9 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 					FirmaView.this.lblGeschlechtWert.setText((angestellter.getGeschlecht() == 0) ? "Männlich" : "Weiblich");
 					FirmaView.this.lblGeburtsdatumWert.setText(angestellter.getGeburtsdatum());
 					FirmaView.this.lblTelefonWert.setText(angestellter.getTelefon());
+					FirmaView.this.lblGehaltsgruppeWert.setText(""+angestellter.getGehaltsgruppe());
+					FirmaView.this.lblErfahrungsstufeWert.setText(""+angestellter.getErfahrungsstufe());
+					FirmaView.this.lblGehaltWert.setText(""+angestellter.getGehalt());
 
 					//Buttons aktivieren
 					FirmaView.this.btnAngestellterBearbeiten.setEnabled(true);
@@ -451,18 +453,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		lblGeburtsdatumWert.setBounds(145, 167, 166, 25);
 		this.lblGeburtsdatumWert.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		this.lblStrasseWert = new JLabel("");
-		lblStrasseWert.setBounds(452, 74, 165, 25);
-		this.lblStrasseWert.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		this.lblPlzWert = new JLabel("");
-		lblPlzWert.setBounds(452, 105, 165, 25);
-		this.lblPlzWert.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		this.lblOrtWert = new JLabel("");
-		lblOrtWert.setBounds(452, 136, 165, 25);
-		this.lblOrtWert.setHorizontalAlignment(SwingConstants.RIGHT);
-
 		//Telefon
 		JLabel lblTelefon = new JLabel("Telefon:");
 		lblTelefon.setBounds(20, 198, 115, 25);
@@ -470,6 +460,30 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		this.lblTelefonWert = new JLabel("");
 		lblTelefonWert.setBounds(145, 198, 166, 25);
 		this.lblTelefonWert.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		//Gehaltsgruppe
+		JLabel lblGehaltsgruppe = new JLabel("Gehaltsgruppe:");
+		lblGehaltsgruppe.setBounds(20, 229, 115, 25);
+
+		this.lblGehaltsgruppeWert = new JLabel("");
+		lblGehaltsgruppeWert.setBounds(145, 229, 166, 25);
+		this.lblGehaltsgruppeWert.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		//Erfahrungsstufe
+		JLabel lblErfahrungsstufe = new JLabel("Erfahrungsstufe:");
+		lblErfahrungsstufe.setBounds(20, 260, 115, 25);
+
+		this.lblErfahrungsstufeWert = new JLabel("");
+		lblErfahrungsstufeWert.setBounds(145, 260, 166, 25);
+		this.lblErfahrungsstufeWert.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		//Gehalt
+		JLabel lblGehalt = new JLabel("Gehalt:");
+		lblGehalt.setBounds(20, 291, 115, 25);
+		
+		this.lblGehaltWert = new JLabel("");
+		lblGehaltWert.setBounds(145, 291, 166, 25);
+		this.lblGehaltWert.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		//Es wird ein Absolute Layout verwendet. Deswegen muss kein explizites Layout gesetzt werden!
 		paAngestellter.setLayout(null);
@@ -486,9 +500,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		paAngestellter.add(lblNameWert);
 		paAngestellter.add(lblTelefon);
 		paAngestellter.add(lblTelefonWert);
-		paAngestellter.add(lblOrtWert);
-		paAngestellter.add(lblPlzWert);
-		paAngestellter.add(lblStrasseWert);
+		paAngestellter.add(lblGehaltsgruppe);
+		paAngestellter.add(lblGehaltsgruppeWert);
+		paAngestellter.add(lblErfahrungsstufe);
+		paAngestellter.add(lblErfahrungsstufeWert);
+		paAngestellter.add(lblGehalt);
+		paAngestellter.add(lblGehaltWert);
 		paAngestellter.add(sepTrenner1);
 	}
 	
@@ -500,7 +517,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		//Erzeugt das Bearbeitungsfenster
 		contentAddAngestellter.setResizable(false);
 		contentAddAngestellter.setTitle("Angestellten hinzufügen");		
-		contentAddAngestellter.setBounds(100, 100, 350, 250);
+		contentAddAngestellter.setBounds(100, 100, 350, 280);
 		
 		JPanel bearbeitenPane = new JPanel();
 		bearbeitenPane.setLayout(new BorderLayout(0,0));
@@ -543,7 +560,23 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		boxGeschlecht.removeAllItems();
 		boxGeschlecht.addItem("Männlich");
 		boxGeschlecht.addItem("Weiblich");
-			
+		
+		//ComboBox Gehaltsgruppe und Erfahrungsstufe initialisieren
+		boxGehaltsgruppe.removeAllItems();
+		boxErfahrungsstufe.removeAllItems();
+		boxGehaltsgruppe.addItem("1");
+		boxGehaltsgruppe.addItem("2");
+		boxGehaltsgruppe.addItem("3");
+		boxGehaltsgruppe.addItem("4");
+		boxGehaltsgruppe.addItem("5");
+		boxGehaltsgruppe.addItem("6");
+		boxErfahrungsstufe.addItem("1");	
+		boxErfahrungsstufe.addItem("2");
+		boxErfahrungsstufe.addItem("3");
+		boxErfahrungsstufe.addItem("4");
+		boxErfahrungsstufe.addItem("5");
+		boxErfahrungsstufe.addItem("6");
+		
 		//Buttons Speichern und Abbrechen ActionListener
 		btnSpeicherNeuenAngestellten.addActionListener(this.controller);
 		btnAbbrechen.addActionListener(this.controller);
@@ -556,13 +589,17 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		lblGeburtstag.setBounds(20, 74, 70, 15);
 		lblGeschlecht.setBounds(20,96,70,15);
 		lblTelefon.setBounds(20, 118, 70, 15);
-		lblAngestelltenNr.setBounds(20, 140, 100, 15);	
-		bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
-		bearbeitenPane.add(lblName, BorderLayout.CENTER);
-		bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
-		bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
-		bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+		lblAngestelltenNr.setBounds(20, 140, 100, 15);
+		lblGehaltsgruppe.setBounds(20, 162, 100, 15);
+		lblErfahrungsstufe.setBounds(20, 184, 100, 15);
+		bearbeitenPane.add(lblVorname);
+		bearbeitenPane.add(lblName);
+		bearbeitenPane.add(lblGeburtstag);
+		bearbeitenPane.add(lblTelefon);
+		bearbeitenPane.add(lblAngestelltenNr);
 		bearbeitenPane.add(lblGeschlecht);
+		bearbeitenPane.add(lblGehaltsgruppe);
+		bearbeitenPane.add(lblErfahrungsstufe);
 			
 		//Textfelder
 		txtVorname.setBounds(120, 30, 200, 19);
@@ -570,10 +607,10 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		txtTelefon.setBounds(120, 118, 200, 19);
 		txtAngestelltenNummer.setBounds(120, 140, 200, 19);
 		
-		bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
-		bearbeitenPane.add(txtName, BorderLayout.CENTER);
-		bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
-		bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
+		bearbeitenPane.add(txtVorname);
+		bearbeitenPane.add(txtName);
+		bearbeitenPane.add(txtTelefon);
+		bearbeitenPane.add(txtAngestelltenNummer);
 			
 		//Datumboxes
 		boxTag.setBounds(120, 74, 40, 18);
@@ -587,11 +624,17 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		boxGeschlecht.setBounds(120,96,80,18);
 		bearbeitenPane.add(boxGeschlecht);
 		
+		//Gehalts- und Erfahrungsboxen
+		boxGehaltsgruppe.setBounds(120, 162, 40, 18);
+		boxErfahrungsstufe.setBounds(120, 184, 40, 18);
+		bearbeitenPane.add(boxGehaltsgruppe);
+		bearbeitenPane.add(boxErfahrungsstufe);
+		
 		//Buttons
-		btnSpeicherNeuenAngestellten.setBounds(220, 170, 100, 20);
-		btnAbbrechen.setBounds(118, 170, 100, 20);
-		bearbeitenPane.add(btnSpeicherNeuenAngestellten, BorderLayout.CENTER);
-		bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
+		btnSpeicherNeuenAngestellten.setBounds(220, 210, 100, 20);
+		btnAbbrechen.setBounds(118, 210, 100, 20);
+		bearbeitenPane.add(btnSpeicherNeuenAngestellten);
+		bearbeitenPane.add(btnAbbrechen);
 		btnSpeicherNeuenAngestellten.setEnabled(false);
 		
 		//Wert "angestellter" als Überprüfung
@@ -874,6 +917,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		int geschlechtNr = boxGeschlecht.getSelectedIndex();
 		String geschlecht;
 		String telefon = txtTelefon.getText();
+		String gehaltsgruppe = (String) boxGehaltsgruppe.getSelectedItem();
+		String erfahrungsstufe = (String) boxErfahrungsstufe.getSelectedItem();
 		
 		//Aus dem Geschlecht eine Zahl im Stringformat generieren um diese ordnungsgemäß als Parameter zu übergeben
 		if(geschlechtNr == 0) {
@@ -883,7 +928,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			geschlecht = "1";
 		}
 		
-		controller.createNewAngestellten(angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr);
+		controller.createNewAngestellten(angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr, gehaltsgruppe, erfahrungsstufe);
 		removeListener();
 	}
 	
@@ -914,7 +959,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			
 	}
 	
-	
 	//Methode um einen angestellten zu bearbeiten
 	
 	public void showAngestelltenBearbeiten() {
@@ -922,7 +966,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		//Erzeugt das Bearbeitungsfenster
 				contentAddAngestellter.setResizable(false);
 				contentAddAngestellter.setTitle("Angestellten bearbeiten");		
-				contentAddAngestellter.setBounds(100, 100, 350, 250);
+				contentAddAngestellter.setBounds(100, 100, 350, 280);
 				
 				JPanel bearbeitenPane = new JPanel();
 				bearbeitenPane.setLayout(new BorderLayout(0,0));
@@ -934,6 +978,22 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				btnBestätigen.addActionListener(this.controller);
 				btnAbbrechen.addActionListener(this.controller);
 					
+				//Boxen Gehalt und Erfahrung initialisieren
+				boxGehaltsgruppe.removeAllItems();
+				boxErfahrungsstufe.removeAllItems();
+				boxGehaltsgruppe.addItem("1");
+				boxGehaltsgruppe.addItem("2");
+				boxGehaltsgruppe.addItem("3");
+				boxGehaltsgruppe.addItem("4");
+				boxGehaltsgruppe.addItem("5");
+				boxGehaltsgruppe.addItem("6");
+				boxErfahrungsstufe.addItem("1");	
+				boxErfahrungsstufe.addItem("2");
+				boxErfahrungsstufe.addItem("3");
+				boxErfahrungsstufe.addItem("4");
+				boxErfahrungsstufe.addItem("5");
+				boxErfahrungsstufe.addItem("6");
+				
 				//Textfelder, Buttons und Labels dem Panel hinzufügen und positionieren
 				
 				//Labels
@@ -943,38 +1003,46 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				lblGeschlecht.setBounds(20,96,70,15);
 				lblTelefon.setBounds(20, 118, 70, 15);
 				lblAngestelltenNr.setBounds(20, 140, 100, 15);	
-				bearbeitenPane.add(lblVorname, BorderLayout.CENTER);
-				bearbeitenPane.add(lblName, BorderLayout.CENTER);
-				bearbeitenPane.add(lblGeburtstag, BorderLayout.CENTER);
-				bearbeitenPane.add(lblTelefon, BorderLayout.CENTER);
-				bearbeitenPane.add(lblAngestelltenNr, BorderLayout.CENTER);
+				lblGehaltsgruppe.setBounds(20, 162, 100, 15);
+				lblErfahrungsstufe.setBounds(20, 184, 100, 15);
+				bearbeitenPane.add(lblVorname);
+				bearbeitenPane.add(lblName);
+				bearbeitenPane.add(lblGeburtstag);
+				bearbeitenPane.add(lblTelefon);
+				bearbeitenPane.add(lblAngestelltenNr);
 				bearbeitenPane.add(lblGeschlecht);
+				bearbeitenPane.add(lblGehaltsgruppe);
+				bearbeitenPane.add(lblErfahrungsstufe);
 					
-				//Textfelder
+				//Textfelder/Boxen Bounds
 				txtVorname.setBounds(120, 30, 200, 19);
 				txtName.setBounds(120, 52, 200, 19);
 				txtTelefon.setBounds(120, 118, 200, 19);
 				txtAngestelltenNummer.setBounds(120, 140, 200, 19);
 				txtGeburtsdatum.setBounds(120, 74, 200, 19);
 				txtGeschlecht.setBounds(120, 96, 200, 19);
+				boxGehaltsgruppe.setBounds(120, 162, 40, 18);
+				boxErfahrungsstufe.setBounds(120, 184, 40, 18);
 				
 				//Geburtstag und Geschlecht sollen nicht editierbar sein, da solche Änderungen häufiger ungewollt als gewollt passieren...
 				txtGeburtsdatum.setEditable(false);
 				txtGeschlecht.setEditable(false);
 				
-				bearbeitenPane.add(txtVorname, BorderLayout.CENTER);
-				bearbeitenPane.add(txtName, BorderLayout.CENTER);
-				bearbeitenPane.add(txtTelefon, BorderLayout.CENTER);
-				bearbeitenPane.add(txtAngestelltenNummer, BorderLayout.CENTER);
-				bearbeitenPane.add(txtGeburtsdatum, BorderLayout.CENTER);
-				bearbeitenPane.add(txtGeschlecht, BorderLayout.CENTER);
+				//Textfelder/Boxen zum Bearbeiten hinzufügen
+				bearbeitenPane.add(txtVorname);
+				bearbeitenPane.add(txtName);
+				bearbeitenPane.add(txtTelefon);
+				bearbeitenPane.add(txtAngestelltenNummer);
+				bearbeitenPane.add(txtGeburtsdatum);
+				bearbeitenPane.add(txtGeschlecht);
+				bearbeitenPane.add(boxGehaltsgruppe);
+				bearbeitenPane.add(boxErfahrungsstufe);
 				
 				//Buttons
-				btnBestätigen.setBounds(220, 170, 100, 20);
-				btnAbbrechen.setBounds(118, 170, 100, 20);
-				bearbeitenPane.add(btnBestätigen, BorderLayout.CENTER);
-				bearbeitenPane.add(btnAbbrechen, BorderLayout.CENTER);
-				btnBestätigen.setEnabled(false);
+				btnBestätigen.setBounds(220, 210, 100, 20);
+				btnAbbrechen.setBounds(118, 210, 100, 20);
+				bearbeitenPane.add(btnBestätigen);
+				bearbeitenPane.add(btnAbbrechen);
 				
 				//Wert "angestellter" als Überprüfung
 				lblAngestellter.setVisible(false);
@@ -987,6 +1055,8 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				txtAngestelltenNummer.setText(lblAngestellteNrWert.getText());
 				txtGeburtsdatum.setText(lblGeburtsdatumWert.getText());
 				txtGeschlecht.setText(lblGeschlechtWert.getText());
+				boxGehaltsgruppe.setSelectedItem(lblGehaltsgruppeWert.getText());
+				boxErfahrungsstufe.setSelectedItem(lblErfahrungsstufeWert.getText());
 				
 				/*
 				 *KeyListener für txtTelefon zur Eingabeüberprüfung aller Felder hinzufügen 
@@ -1260,16 +1330,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 		isGeil.setVisible(true);
 
-		/*try {
-	        
-	 		Thread.sleep(3000);
-	 		test.dispose();
-	        
-	      } 
-			catch (InterruptedException e) {
-	      	}
- 		*/
-
 }
 	
 	public void showIsGeil2() {
@@ -1288,21 +1348,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
  		bestChoice.setBounds(0,-10,335,300);
 
 		isGeil.setVisible(true);
-
-		/*try {
-	        
-	 		Thread.sleep(3000);
-	 		test.dispose();
-	        
-	      } 
-			catch (InterruptedException e) {
-	      	}
-	}
- 		*/
-
-
-
-
 		
 	}
 	
@@ -1341,10 +1386,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		this.lblVornameWert.setText("");
 		this.lblGeschlechtWert.setText("");
 		this.lblGeburtsdatumWert.setText("");
-		this.lblStrasseWert.setText("");
-		this.lblPlzWert.setText("");
-		this.lblOrtWert.setText("");
+		this.lblGehaltsgruppeWert.setText("");
+		this.lblErfahrungsstufeWert.setText("");
 		this.lblTelefonWert.setText("");
+		this.lblGehaltsgruppeWert.setText("");
+		this.lblErfahrungsstufeWert.setText("");
+		this.lblGehaltWert.setText("");
 
 		//Schaltflächen zurücksetzen
 		this.btnAngestellterBearbeiten.setEnabled(false);
@@ -1515,10 +1562,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				this.lblAngestellteNrWert.setText(""+pde.getData().getNr());
 				this.lblNameWert.setText(pde.getData().getNachname());
 				this.lblVornameWert.setText(pde.getData().getVorname());
-				this.lblGeschlechtWert.setText((pde.getData().getGeschlecht() == 0) ? "M" : "W");
+				this.lblGeschlechtWert.setText((pde.getData().getGeschlecht() == 0) ? "Männlich" : "Weiblich");
 				this.lblGeburtsdatumWert.setText(pde.getData().getGeburtsdatum());
 				this.lblTelefonWert.setText(pde.getData().getTelefon());
-			}
+				this.lblGehaltsgruppeWert.setText(""+pde.getData().getGehaltsgruppe());
+				this.lblErfahrungsstufeWert.setText(""+pde.getData().getErfahrungsstufe());
+				this.lblGehaltWert.setText(""+controller.gehaltLaden(gewaehlterAngestellter));			}
 		}
 
 	}

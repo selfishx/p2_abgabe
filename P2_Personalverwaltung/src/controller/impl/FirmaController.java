@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -153,8 +154,10 @@ public class FirmaController extends AbstractController implements ActionListene
 					String nachname = firmaView.txtName.getText();
 					String vorname = firmaView.txtVorname.getText();
 					String telefon = firmaView.txtTelefon.getText();
+					String gehaltsgruppe = (String) firmaView.boxGehaltsgruppe.getSelectedItem();
+					String erfahrungsstufe = (String) firmaView.boxErfahrungsstufe.getSelectedItem();
 					
-					firmaModel.changeAngestellterDaten(i, nachname, vorname, telefon);
+					firmaModel.changeAngestellterDaten(i, nachname, vorname, telefon, gehaltsgruppe, erfahrungsstufe);
 					firmaView.contentAddAngestellter.dispose();
 					firmaView.removeListener();
 																					
@@ -162,6 +165,15 @@ public class FirmaController extends AbstractController implements ActionListene
 		
 	}
 
+	public float gehaltLaden(AngestellterModel angestellter) {
+		AngestellterModel gewählterAngestellter = angestellter;
+		int gehaltsGruppe = gewählterAngestellter.getGehaltsgruppe();
+		int erfahrungsStufe = gewählterAngestellter.getErfahrungsstufe();
+		int gehaltsIndex = gewählterAngestellter.getGehaltIndex(gehaltsGruppe, erfahrungsStufe);
+		gewählterAngestellter.setGehalt(firmaModel.getGehaltIndex(gehaltsIndex));
+		float gehalt = gewählterAngestellter.getGehalt();	
+		return gehalt;
+	}
 	
 	/**
 	 * Setzt alle dargestellten Informationen zurück
@@ -220,13 +232,13 @@ public class FirmaController extends AbstractController implements ActionListene
 			String[] infos = zeile.split(",");
 
 			//Debug-Ausgabe
-			System.out.println(infos[0] + ", " + infos[1] + ", " + infos[2] + ", " + infos[3] + ", " + infos[4] + ", " + infos[5] + ", " + infos[6]);
+			System.out.println(infos[0] + ", " + infos[1] + ", " + infos[2] + ", " + infos[3] + ", " + infos[4] + ", " + infos[5] + ", " + infos[6] + ", " + infos[7] + ", " + infos[8]);
 			
 			//Erster Eintrag muss immer "objekt" sein
 			if (infos[0].equals("angestellter")) {
 
-				//Jede Zeile enthält 7 Informationen
-				if (infos.length != 7) {
+				//Jede Zeile enthält 9 Informationen
+				if (infos.length != 9) {
 					dateiEinlesen.close();
 					throw new IOException();
 				}				
@@ -240,6 +252,8 @@ public class FirmaController extends AbstractController implements ActionListene
 					letzterAngestellter.setGeburtsdatum(infos[4]);
 					letzterAngestellter.setGeschlecht(Integer.valueOf(infos[5]).intValue());
 					letzterAngestellter.setTelefon(infos[6]);
+					letzterAngestellter.setGehaltsgruppe(Integer.valueOf(infos[7]).intValue());
+					letzterAngestellter.setErfahrungsstufe(Integer.valueOf(infos[8]).intValue());
 				} catch (Exception e) {
 					dateiEinlesen.close();
 					throw new IOException();
@@ -255,6 +269,32 @@ public class FirmaController extends AbstractController implements ActionListene
 		dateiEinlesen.close();
 	}
 
+	public void leseGehaltstabelle(File datei) throws IOException {
+		String zeile = "";
+		String daten = "";
+		
+		//Datei einlesen
+		try {
+			BufferedReader dateiEinlesen = new BufferedReader(new FileReader(datei));
+			zeile = dateiEinlesen.readLine();
+			if(zeile.equals("gehälter")) {
+			//zeilenweise abarbeiten
+				while ((zeile = dateiEinlesen.readLine()) != null) {
+					daten = ""+zeile;
+					daten = daten.replaceFirst(",",".");			
+					//Eingelesene Zeilen in die Gehaltsliste (Array gehaltsliste im FirmaModel) übertragen
+					getModel().addGehaltsListe(Float.parseFloat(daten));
+					System.out.println(""+zeile);
+				}
+			}
+			
+			dateiEinlesen.close();
+		}
+		 catch (Exception e) {
+			System.out.println("Datei Gehaltstabelle konnte nicht gefunden werden!");
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Neues Objekt manuell hinzufügen
@@ -262,11 +302,11 @@ public class FirmaController extends AbstractController implements ActionListene
 	 * @param model Neues Objektmodell mit notwendigen Informationen
 	 */
 	
-	public void createNewAngestellten(String angestellter,String vorname, String nachname,String geburtsdatum, String geschlecht, String telefon, String angestelltenNr){
+	public void createNewAngestellten(String angestellter,String vorname, String nachname,String geburtsdatum, String geschlecht, String telefon, String angestelltenNr, String gehaltsgruppe, String erfahrungsstufe){
 
 
 		AngestellterModel neuerAngestellter = new AngestellterModel();
-		String[] infos = {angestellter, angestelltenNr, vorname, nachname, geburtsdatum, geschlecht, telefon};
+		String[] infos = {angestellter, angestelltenNr, vorname, nachname, geburtsdatum, geschlecht, telefon, gehaltsgruppe, erfahrungsstufe};
 		
 		//Erster Eintrag muss immer "objekt" sein
 		if (infos[0].equals("angestellter")) {
@@ -278,6 +318,8 @@ public class FirmaController extends AbstractController implements ActionListene
 				neuerAngestellter.setGeburtsdatum(infos[4]);
 				neuerAngestellter.setGeschlecht(Integer.valueOf(infos[5]).intValue());
 				neuerAngestellter.setTelefon(infos[6]);
+				neuerAngestellter.setGehaltsgruppe(Integer.valueOf(infos[7]).intValue());
+				neuerAngestellter.setErfahrungsstufe(Integer.valueOf(infos[8]).intValue());
 		}
 		
 		this.firmaModel.addAngestellter(neuerAngestellter);
@@ -367,7 +409,9 @@ public class FirmaController extends AbstractController implements ActionListene
 			inhalt = String.valueOf(inhalt) + angestellter.getNachname() + ",";
 			inhalt = String.valueOf(inhalt) + angestellter.getGeburtsdatum() + ",";
 			inhalt = String.valueOf(inhalt) + angestellter.getGeschlecht() + ",";
-			inhalt = String.valueOf(inhalt) + angestellter.getTelefon() + "\r\n";
+			inhalt = String.valueOf(inhalt) + angestellter.getTelefon() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getGehaltsgruppe() + ",";
+			inhalt = String.valueOf(inhalt) + angestellter.getErfahrungsstufe() + "\r\n";
 
 		}
 
