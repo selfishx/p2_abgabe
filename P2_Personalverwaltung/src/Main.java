@@ -1,6 +1,11 @@
 //import models.impl.AdresseModel;
 import models.impl.FirmaModel;
 import views.impl.FirmaView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import controller.impl.FirmaController;
 
 /**
@@ -21,14 +26,15 @@ import controller.impl.FirmaController;
  *
  */
 public class Main {
-
+	
 
 	/**
 	 * Startpunkt der Java-VM für diese Software.
 	 * 
 	 * @param args keine
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		//Model erzeugen und Namen der Software setzen
 		FirmaModel      firma        = new FirmaModel();
@@ -44,6 +50,15 @@ public class Main {
 		
 		//Anzeigefenster darstellen
 		firmaLogik.zeigeFenster();
+		
+		//Gehaltsliste laden
+		File gehaltsliste = new File("C:\\Gehaltstabelle\\Gehaltstabelle.csv");
+		try {
+			firmaLogik.leseGehaltstabelle(gehaltsliste);
+		} catch (FileNotFoundException e) {
+			System.out.println("Die Gehaltstabelle konnte nicht geladen werden");
+			e.printStackTrace();
+		}
 	}
 
 }
