@@ -161,7 +161,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	private JButton btnAbbrechen = new JButton("Abbrechen");//Aktion Mitarbeiter hinzufügen abbrechen im Dialog neuer Angestellter
 	private JButton btnEntfernen = new JButton("Entfernen");//Aktion Mitarbeiter entfernen bestätigen im Dialog Angestellten entfernen
 	private JButton btnBestätigen = new JButton("Bestätigen");//Aktion Mitarbeiter bearbeiten bestätigen im Dialog Angestellten bearbeiten
-	private JButton btnGehalt;   //Schaltfläche Gehalt einesehen
 	
 	/*
 	 * Liste aller Angestellten, die bei einem EVENT update befüllt wird
@@ -171,11 +170,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	
 	//Textfelder / Comboboxes für Mitarbeiter bearbeiten deklarieren
 	public  JTextField txtTelefonBearbeiten = new JTextField(50);
-
-		
-		
-	
-	
 	
 
 	/**
