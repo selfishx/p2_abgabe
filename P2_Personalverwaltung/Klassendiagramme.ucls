@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="Main" project="P2_Hausbesuche" file="/P2_Hausbesuche/src/Main.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="71" y="59"/>    
+    <position height="99" width="113" x="43" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="controller.AbstractController" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/controller/AbstractController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="632" y="322"/>    
+    <position height="99" width="154" x="898" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="controller.impl.FirmaController" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/controller/impl/FirmaController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="628" y="510"/>    
+    <position height="333" width="447" x="893" y="1472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="events.AbstractEvent" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/events/AbstractEvent.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="234" y="97"/>    
+    <position height="171" width="187" x="1380" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <enumeration id="5" language="java" name="events.AbstractEvent.EventType" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/events/AbstractEvent.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="83" y="320"/>    
+    <position height="189" width="125" x="1380" y="1472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </enumeration>  
   <class id="6" language="java" name="models.AbstractModel" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/models/AbstractModel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="942" y="951"/>    
+    <position height="117" width="176" x="196" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="models.impl.AngestellterModel" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/models/impl/AngestellterModel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="616" y="936"/>    
+    <position height="729" width="179" x="43" y="1472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="models.impl.FirmaModel" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/models/impl/FirmaModel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="948" y="675"/>    
+    <position height="441" width="345" x="262" y="1472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <interface id="9" language="java" name="views.InterfaceView" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/views/InterfaceView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="297" y="1047"/>    
+    <position height="99" width="206" x="647" y="1472"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,63 +84,63 @@
   </interface>  
   <class id="10" language="java" name="views.impl.FirmaView" project="P2_Hausbesuche" 
     file="/P2_Hausbesuche/src/views/impl/FirmaView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="293" y="679"/>    
+    <position height="1395" width="259" x="599" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="11">    
+  <realization id="11">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </realization>  
+  <association id="12">    
     <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="12" name="model">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="13" name="model">        
+        <position height="0" width="0" x="430" y="-411"/>      
       </attribute>      
-      <multiplicity id="13" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="430" y="-411"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="14">    
+  <generalization id="15">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <nesting id="15">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="5"/>  
-  </nesting>  
   <association id="16">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="17" name="controller">        
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="17" name="type">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="18" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="19">    
     <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <realization id="20">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="9"/>  
-  </realization>  
+  <nesting id="20">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </nesting>  
   <association id="21">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="22" name="type">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="22" name="controller">        
+        <position height="0" width="0" x="863" y="192"/>      
       </attribute>      
       <multiplicity id="23" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" x="863" y="192"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="24">    
