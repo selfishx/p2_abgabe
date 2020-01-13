@@ -34,13 +34,9 @@
 package views.impl;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -52,14 +48,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -90,7 +84,6 @@ import events.impl.FirmaAngestellterEvent;
  *
  */
 public class FirmaView extends JFrame implements Observer, InterfaceView {
-
 
 	//Wert zur Serialisierung von SWING-Objketen. Hier nur, um Compiler-WARNING zu unterdrücken!
 	private static final long serialVersionUID = 1L;
@@ -167,7 +160,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 	 * Die Liste wird der JList listAngestellteListe übergeben
 	 */
 	private DefaultListModel<AngestellterModel> mitarbeiter = new DefaultListModel<>(); 
-	
+		
 	//Textfelder / Comboboxes für Mitarbeiter bearbeiten deklarieren
 	public  JTextField txtTelefonBearbeiten = new JTextField(50);
 	
@@ -503,10 +496,10 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		paAngestellter.add(sepTrenner1);
 	}
 	
-	/*
-		 * Ruft ein Fenster für "neuer Mitarbeiter" auf
-		 */
 	
+	/**
+	 * Komponenten des Fensters "neuer Mitarbeiter" erzeugen und hinzufügen
+	 */	
 	public void showAddMitarbeiterWindow() {
 		//Erzeugt das Bearbeitungsfenster
 		contentAddAngestellter.setResizable(false);
@@ -898,7 +891,12 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		bearbeitenPane.setVisible(true);
 	}
 	
-	//Methode um die Werte eines neuen Angestellten an den Controller zu übergeben um einen neuen Angestellten zu  erzeugen
+	
+	/**
+	 *Methode um die Werte eines neuen Angestellten an den Controller zu übergeben.
+	 **Übergibt die Parameter (angestellter, vorname, nachname, geburtsdatum, geschlecht, telefon, angestelltenNr, gehaltsgruppe, erfahrungsstufe)
+	 *indem die Methode createNewAngestellter der Klasse Controller aufegerufen wird
+	 */
 	public void addNewAngestellter() {
 		
 		geburtsdatumNewAngestellter = ""+boxTag.getSelectedItem()+"."+boxMonat.getSelectedItem()+"."+boxJahr.getSelectedItem();
@@ -926,7 +924,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		removeListener();
 	}
 	
-	//K - Ruft ein "Sicher löschen?"-Fenster beim klicken von "Angestellten entfernen" auf
+	
+	/**
+	 * Ruft ein "Sicher löschen?"-Fenster beim klicken von "Angestellten entfernen" auf
+	 * 
+	 */
 	public void showEntferneAngestelltenWindow() {
 		
 		contentEntferneAngestellten.setResizable(false);
@@ -953,8 +955,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 			
 	}
 	
-	//Methode um einen angestellten zu bearbeiten
 	
+	/**
+	 * Erzeugt ein Fenster in dem ein Angestellter bearbeitet werden kann
+	 * 
+	 */
 	public void showAngestelltenBearbeiten() {
 		
 		//Erzeugt das Bearbeitungsfenster
@@ -1306,7 +1311,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 				bearbeitenPane.setVisible(true);
 			}
 		
-	//Feedback zu "isGeil"
+	
+	/**
+	 * Erzeugt ein Fenster für den boolean Wert "isGeil"
+	 * 
+	 */
 	public void showIsGeil() {
 		
 		contentAddAngestellter.dispose();
@@ -1326,6 +1335,11 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 }
 	
+	
+	/**
+	 * Erzeugt ein Fenster für den boolean Wert "isGeil2"
+	 * 
+	 */
 	public void showIsGeil2() {
 		
 		contentAddAngestellter.dispose();
@@ -1345,7 +1359,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		
 	}
 	
-
+	
 	/**
 	 * Liefert den derzeit in der Views selektierten und dargestellten Angestellten respektive sein
 	 * Datenobjekt
@@ -1367,7 +1381,6 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 
 	}
 
-	
 
 	/**
 	 * Diese Methode setzt alle Anzeigefelder der Angestelltendaten auf "leer" zurück.
@@ -1594,31 +1607,33 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		});
 	}
 
-
+	
+	/**
+	 * Setzt den Actionlistener der Buttons btnSpeicherNeuenAngestellten und btnAbbrechen zurück
+	 * 
+	 */
 	public void removeListener() {
 		btnSpeicherNeuenAngestellten.removeActionListener(controller);
 		btnAbbrechen.removeActionListener(controller);
 	}
+		
 	
+	//Buttons der FirmaView
 	public JButton  getBtnDateiLaden() {
 		return btnDateiLaden;
 	}
 
-
 	public JButton getBtnNeuerAngestellter() {
 		return btnNeuerAngestellter;
 	}
-
 	
 	public JButton getBtnEntferneAngestellten() {
 		return btnEntferneAngestellten;
 	}
 	
-
 	public JButton getBtnSpeichern() {
 		return btnDateiSpeichern;
 	}
-
 
 	public JButton getBtnAngestellterBearbeiten() {
 		return btnAngestellterBearbeiten;
@@ -1632,8 +1647,7 @@ public class FirmaView extends JFrame implements Observer, InterfaceView {
 		return btnAbbrechen;
 	}
 	
-	//Entfernen-Button im Dialog "Angestellten entfernen"
-		public JButton getBtnEntfernen() {
+	public JButton getBtnEntfernen() {
 		return btnEntfernen;
 	}
 		

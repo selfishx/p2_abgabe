@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,8 +19,6 @@ import models.impl.AngestellterModel;
 import models.impl.FirmaModel;
 import views.impl.FirmaView;
 import controller.AbstractController;
-import events.AbstractEvent.EventType;
-import events.impl.FirmaAngestellterEvent;
 
 /**
  * Diese Klasse repräsentiert die Logik der Firma. Alle Aktivitäten innerhalb
@@ -35,6 +32,7 @@ import events.impl.FirmaAngestellterEvent;
  */
 public class FirmaController extends AbstractController implements ActionListener {
 
+	
 	// Verweis auf das Hauptfenster, die FirmaView
 	private final FirmaView firmaView;
 	
@@ -42,6 +40,7 @@ public class FirmaController extends AbstractController implements ActionListene
 	// Verweis auf das zugrundeliegende Model
 	private FirmaModel firmaModel;
 
+	
 	/**
 	 * Konstruktor des Controller. Es werden das Model und die View dem
 	 * Controller als Parameter übergeben. Der Controller setzt sich innerhalb
@@ -165,6 +164,13 @@ public class FirmaController extends AbstractController implements ActionListene
 		
 	}
 
+	
+	/**
+	 * Lädt das Gehalt des ausgewählten Angestellten
+	 * 
+	 * @param angestellter
+	 * @return
+	 */
 	public float gehaltLaden(AngestellterModel angestellter) {
 		AngestellterModel gewählterAngestellter = angestellter;
 		int gehaltsGruppe = gewählterAngestellter.getGehaltsgruppe();
@@ -174,6 +180,7 @@ public class FirmaController extends AbstractController implements ActionListene
 		float gehalt = gewählterAngestellter.getGehalt();	
 		return gehalt;
 	}
+	
 	
 	/**
 	 * Setzt alle dargestellten Informationen zurück
@@ -269,6 +276,13 @@ public class FirmaController extends AbstractController implements ActionListene
 		dateiEinlesen.close();
 	}
 
+	
+	/**
+	 * Einlesen der Gehaltstabelle beim Starten des Programms
+	 * 
+	 * @param datei
+	 * @throws IOException
+	 */
 	public void leseGehaltstabelle(File datei) throws IOException {
 		String zeile = "";
 		String daten = "";
@@ -296,12 +310,20 @@ public class FirmaController extends AbstractController implements ActionListene
 		}
 	}
 	
-	/**
-	 * Neues Objekt manuell hinzufügen
-	 * 
-	 * @param model Neues Objektmodell mit notwendigen Informationen
-	 */
 	
+	/** 
+	 * Neues Objekt AngestellterModel
+	 * 
+	 * @param angestellter
+	 * @param vorname
+	 * @param nachname
+	 * @param geburtsdatum
+	 * @param geschlecht
+	 * @param telefon
+	 * @param angestelltenNr
+	 * @param gehaltsgruppe
+	 * @param erfahrungsstufe
+	 */
 	public void createNewAngestellten(String angestellter,String vorname, String nachname,String geburtsdatum, String geschlecht, String telefon, String angestelltenNr, String gehaltsgruppe, String erfahrungsstufe){
 
 
@@ -332,7 +354,13 @@ public class FirmaController extends AbstractController implements ActionListene
 			firmaView.showIsGeil2();
 		}
 	}
+
 	
+	/**
+	 * Fügt der Anzeigeliste im View einen neuen Angestellten hinzu
+	 * 
+	 * @param model
+	 */
 	public void angestellterHinzufuegen(AngestellterModel model) {
 		
 		//Prüfen, ob ein evtl. vorhandenes Objekt aktualisiert wurde. Dann an dieser Stelle in der Liste
