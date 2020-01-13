@@ -21,20 +21,18 @@ import events.impl.FirmaAngestellterEvent;
  */
 public class FirmaModel extends AbstractModel {
 
-
 	//Name der Firma. Gilt gleichzeitig als Name der Software
 	private String name;
-	
-	
+		
 	//Status, ob es Änderungen gab, die es zu Speichern gilt.
 	private boolean isDirty;
-
 	
 	//Liste der Angestellten, die von der Software verwaltet werden
 	private final ArrayList<AngestellterModel> angestellte;
 	
 	//Liste der Gehälter die von der Software verwaltet werden
 	private final ArrayList<Float> gehaltsliste;
+
 	
 	/**
 	 * Erzeugt ein Objekt zur Speicherung von Daten, die für eine Firma relevant sind.
@@ -61,12 +59,22 @@ public class FirmaModel extends AbstractModel {
 		setDirty(true);
 	}
 	
-	//fügt der Gehaltsliste die Gehälter aus der CSV Datei hinzu
+	
+	/**
+	 * Fügt der Gehaltsliste die Gehälter aus der CSV Datei hinzu
+	 * 
+	 * @param info
+	 */
 	public void addGehaltsListe(float info){
 		gehaltsliste.add(info);
 	}
 	
-	//erhalte den Wert des ausgewählten Index der Gehaltsliste
+	/**
+	 * Erhalte den Wert des ausgewählten Index der Gehaltsliste
+	 * 
+	 * @param index
+	 * @return
+	 */
 	public float getGehaltIndex(int index) {
 		return gehaltsliste.get(index);
 	}
@@ -190,11 +198,24 @@ public class FirmaModel extends AbstractModel {
 		}
 	}
 	
+	
+	/**
+	 * Verändert die Werte eines Angestellten
+	 * 
+	 * @param nummerAngestellter
+	 * @param nachname
+	 * @param vorname
+	 * @param telefon
+	 * @param gehaltsgruppe
+	 * @param erfahrungsstufe
+	 */
 	public void changeAngestellterDaten(int nummerAngestellter, String nachname, String vorname, String telefon, String gehaltsgruppe, String erfahrungsstufe) {
 		for (int i = this.angestellte.size()-1; i>=0; i--) {
+			
 			//Wenn der Patient gefunden wurde,
 			//informiere die Listener über die Änderung
 			//und aktualisiere dann den Angestellten
+			
 			if (this.angestellte.get(i).getNr() == nummerAngestellter) {
 				this.angestellte.get(i).setNachname(nachname);
 				setChanged();
@@ -218,8 +239,6 @@ public class FirmaModel extends AbstractModel {
 	}
 	
 	
-
-
 	/**
 	 * Entfernt alle Angestellten der Firma.
 	 * Alle angemeldeten Listener werden über die Änderung informiert.
@@ -234,7 +253,7 @@ public class FirmaModel extends AbstractModel {
 		setDirty(true);
 	}
 
-
+	
 	/**
 	 * Erlaubt das Setzen des Zustandes von isDirty.
 	 * Abhängig vom Zustand von isDirty ergibt sich die Option zum Speichern
@@ -247,7 +266,7 @@ public class FirmaModel extends AbstractModel {
 		this.notifyObservers(new FirmaDataEvent(EventType.UPDATE, this));
 	}
 
-
+	
 	/**
 	 * Setzt den Namen der Firma und informiert die angemeldeten Listener über die Änderung
 	 * 

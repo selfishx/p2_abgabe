@@ -27,35 +27,28 @@ public class AngestellterModel extends AbstractModel {
 		return vorname + " " + nachname;
 	}
 
-
 	/**
 	 * Integer-Repräsentation für männliche Angestellten
 	 */
 	public static final int MANN = 0;
-
 
 	/**
 	 * Integer-Repräsentation für weibliche Angestellten
 	 */
 	public static final int FRAU = 1;
 
-
 	//Angestellten-Nr des jeweiligen Angestellten
 	private int nr;
-
 
 	//Vorname des Angestellten
 	private String vorname;
 
-
 	//Nachname des Angestellten
 	private String nachname;
 
-
 	//Geschlecht des Angestellten
 	private int geschlecht;
-
-
+	
 	//Geburtsdatum des Angestellten
 	private String geburtsdatum;
 
@@ -75,7 +68,7 @@ public class AngestellterModel extends AbstractModel {
 	//Gehalt des Angestellten
 	private float gehalt;
 
-
+	
 	/**
 	 * Konstruktor.
 	 * Erzeugt einen neuen Angestellten mit leerer Terminliste.
@@ -156,18 +149,20 @@ public class AngestellterModel extends AbstractModel {
 		return this.vorname;
 	}
 	
+	
 	/**
 	 * Liefert die Erfahrungsstufe des Angestellten
 	 * 
-	 * @return Erfahrungsstufe des Angestellten
+	 * @return erfahrungsStufe
 	 */
 	public int getErfahrungsstufe() {
 		return this.erfahrungsStufe;
 	}
+	
+	
 	/**
-	 * Liefert die Gehaltsgruppe des Angestellten
-	 * 
-	 * @return Gehaltsgruppe des Angestellten
+	 *  Liefert die Gehaltsgruppe des Angestellten
+	 * @return gehaltsGruppe
 	 */
 	public int getGehaltsgruppe() {
 		return this.gehaltsGruppe;
@@ -268,10 +263,10 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 	
+	
 	/**
-	 * Setzt die Gehaltsgruppe des Angestellten.
-	 * 
-	 * @param gehaltsGruppe Gehaltsgruppe
+	 *  Setzt die Gehaltsgruppe des Angestellten.
+	 * @param gehaltsGruppe
 	 */
 	public void setGehaltsgruppe(int gehaltsGruppe) {
 		this.gehaltsGruppe = gehaltsGruppe;
@@ -279,10 +274,10 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 	
+	
 	/**
 	 * Setzt die Erfahrungsstufe des Angestellten.
-	 * 
-	 * @param erfahrungsStufe Erfahrungsstufe
+	 * @param erfahrungsStufe
 	 */
 	public void setErfahrungsstufe(int erfahrungsStufe) {
 		this.erfahrungsStufe = erfahrungsStufe;
@@ -290,11 +285,13 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 	
+	
 	/**
-	 * Setzt das Gehalt des Angestellten.
-	 * 
-	 * @param  Erfahrungsstufe und Gehaltsgruppe
-	 */
+	 *  Liefert den Index der Gehaltsliste des Angestellten.
+	 * @param gehaltsGruppe
+	 * @param erfahrungsStufe
+	 * @return
+	 */	 
 	public int getGehaltIndex(int gehaltsGruppe, int erfahrungsStufe) {
 			
 		this.gehaltsGruppe = gehaltsGruppe;
@@ -442,14 +439,31 @@ public class AngestellterModel extends AbstractModel {
 		return i;
 	}
 	
+	
+	/**
+	 * Setzt das Gehalt des Angestellten
+	 * 
+	 * @param gehalt
+	 */
 	public void setGehalt(float gehalt) {
 		this.gehalt = gehalt;
 	}
 
+	
+	/**
+	 * Liefert das Gehalt des Angestellten
+	 * 
+	 * @return
+	 */
 	public float getGehalt() {
 		return gehalt;
 	}
 	
+	
+	/**
+	 * Setzt unter bestimmten Vorraussetzungen den boolean Wert isGeil auf true ;)
+	 * 
+	 */
 	private void setIsGeil(){
 		
 		isGeil = false;
@@ -465,6 +479,7 @@ public class AngestellterModel extends AbstractModel {
 			isGeil2 = true;
 		}
 	}
+	
 	
 	/**
 	 * Angestellter-Objekte werden anhand ihres Familiennamens
