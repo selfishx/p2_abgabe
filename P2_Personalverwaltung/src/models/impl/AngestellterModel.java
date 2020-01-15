@@ -9,18 +9,18 @@ import events.AbstractEvent.EventType;
 import events.impl.AngestellterDataEvent;
 
 /**
- * Diese Klasse repräsentiert einen Angestellten im Programm.
- * Ein Angestellter enthält neben den Stammdaten auch eine Liste von Terminen.
- * Die Klasse stellt Methoden zum Setzen (<tt>set..</tt>) und Abfragen (<tt>get..</tt>)
- * zur Verfügung, um alle relevanten Informationen eines Angestellten abbilden zu
- * können. Weiter werden Methoden zum Hinzufügen und Entfernen von Termin-Objekten ermöglicht
+ * Diese Klasse repräsentiert einen Angestellten im Programm. Ein Angestellter
+ * enthält neben den Stammdaten auch eine Liste von Terminen. Die Klasse stellt
+ * Methoden zum Setzen (<tt>set..</tt>) und Abfragen (<tt>get..</tt>) zur
+ * Verfügung, um alle relevanten Informationen eines Angestellten abbilden zu
+ * können. Weiter werden Methoden zum Hinzufügen und Entfernen von
+ * Termin-Objekten ermöglicht
  * 
- * @author  Jens Sterk
+ * @author Jens Sterk
  * @version 1.0
  * 
  */
 public class AngestellterModel extends AbstractModel {
-
 
 	@Override
 	public String toString() {
@@ -37,46 +37,44 @@ public class AngestellterModel extends AbstractModel {
 	 */
 	public static final int FRAU = 1;
 
-	//Angestellten-Nr des jeweiligen Angestellten
+	// Angestellten-Nr des jeweiligen Angestellten
 	private int nr;
 
-	//Vorname des Angestellten
+	// Vorname des Angestellten
 	private String vorname;
 
-	//Nachname des Angestellten
+	// Nachname des Angestellten
 	private String nachname;
 
-	//Geschlecht des Angestellten
+	// Geschlecht des Angestellten
 	private int geschlecht;
-	
-	//Geburtsdatum des Angestellten
+
+	// Geburtsdatum des Angestellten
 	private String geburtsdatum;
 
-	//Telefonnummer des Angestellten
+	// Telefonnummer des Angestellten
 	private String telefon;
-	
-	//Beste Entscheidung für eine Einstellung!
+
+	// Beste Entscheidung für eine Einstellung!
 	public static boolean isGeil = false;
 	public static boolean isGeil2 = false;
-	
-	//Erfahrungsstufe des Angestellten (Gibt Auskunft über die Zeit die der Angestellte bereits im Betrieb arbeitet)
+
+	// Erfahrungsstufe des Angestellten (Gibt Auskunft über die Zeit die der
+	// Angestellte bereits im Betrieb arbeitet)
 	private int erfahrungsStufe;
-	
-	//Gehaltsgruppe des Angestellten
+
+	// Gehaltsgruppe des Angestellten
 	private int gehaltsGruppe;
-	
-	//Gehalt des Angestellten
+
+	// Gehalt des Angestellten
 	private float gehalt;
 
-	
 	/**
-	 * Konstruktor.
-	 * Erzeugt einen neuen Angestellten mit leerer Terminliste.
+	 * Konstruktor. Erzeugt einen neuen Angestellten mit leerer Terminliste.
 	 */
 	public AngestellterModel() {
-		//nothing
+		// nothing
 	}
-
 
 	/**
 	 * Liefert das Geburtsdatum des Angestellten
@@ -87,17 +85,14 @@ public class AngestellterModel extends AbstractModel {
 		return this.geburtsdatum;
 	}
 
-
 	/**
-	 * Liefert das Geschlecht des Angestellten
-	 * als Integer-Wert
+	 * Liefert das Geschlecht des Angestellten als Integer-Wert
 	 * 
 	 * @return 0 = Mann, 1 = Frau
 	 */
 	public int getGeschlecht() {
 		return this.geschlecht;
 	}
-
 
 	/**
 	 * Liefert die eigene Objektinstanz zurück
@@ -109,7 +104,6 @@ public class AngestellterModel extends AbstractModel {
 		return this;
 	}
 
-
 	/**
 	 * Liefert den Nachnamen des Angestellten
 	 * 
@@ -118,7 +112,6 @@ public class AngestellterModel extends AbstractModel {
 	public String getNachname() {
 		return this.nachname;
 	}
-
 
 	/**
 	 * Liefert die Angestelltennnummer
@@ -129,7 +122,6 @@ public class AngestellterModel extends AbstractModel {
 		return this.nr;
 	}
 
-
 	/**
 	 * Liefert die Telefonnummer des Angestellten
 	 * 
@@ -139,7 +131,6 @@ public class AngestellterModel extends AbstractModel {
 		return this.telefon;
 	}
 
-
 	/**
 	 * Liefert den Vornamen des Angestellten
 	 * 
@@ -148,8 +139,7 @@ public class AngestellterModel extends AbstractModel {
 	public String getVorname() {
 		return this.vorname;
 	}
-	
-	
+
 	/**
 	 * Liefert die Erfahrungsstufe des Angestellten
 	 * 
@@ -158,22 +148,21 @@ public class AngestellterModel extends AbstractModel {
 	public int getErfahrungsstufe() {
 		return this.erfahrungsStufe;
 	}
-	
-	
+
 	/**
-	 *  Liefert die Gehaltsgruppe des Angestellten
+	 * Liefert die Gehaltsgruppe des Angestellten
+	 * 
 	 * @return gehaltsGruppe
 	 */
 	public int getGehaltsgruppe() {
 		return this.gehaltsGruppe;
 	}
 
-	
 	/**
-	 * Setzt das Geburtsdatum des Angestellten.
-	 * Wird ein ungültiges Datum eingegeben, wird eine Exception erzeugt und zurückgeliefert.
+	 * Setzt das Geburtsdatum des Angestellten. Wird ein ungültiges Datum
+	 * eingegeben, wird eine Exception erzeugt und zurückgeliefert.
 	 * 
-	 * @param  geburtsdatum 		 Datum im Format dd.mm.yyyy
+	 * @param geburtsdatum Datum im Format dd.mm.yyyy
 	 * @throws NumberFormatException Ungültiges Datum
 	 */
 	public void setGeburtsdatum(String geburtsdatum) throws NumberFormatException {
@@ -189,13 +178,11 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
-
 	/**
-	 * Setzt das Geschlecht des Angestellten.
-	 * 0 für Mann, 1 für Frau. Bei ungültiger Eingabe wird eine Exception an den Aufrufer 
-	 * zurückgeliefert.
+	 * Setzt das Geschlecht des Angestellten. 0 für Mann, 1 für Frau. Bei ungültiger
+	 * Eingabe wird eine Exception an den Aufrufer zurückgeliefert.
 	 * 
-	 * @param  geschlecht            0 = Mann, 1 = Frau
+	 * @param geschlecht 0 = Mann, 1 = Frau
 	 * @throws NumberFormatException Fehlerhafte Eingabe
 	 */
 	public void setGeschlecht(int geschlecht) throws NumberFormatException {
@@ -208,7 +195,6 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
-
 	/**
 	 * Setzt den Nachnamen des Angestellten
 	 * 
@@ -220,12 +206,11 @@ public class AngestellterModel extends AbstractModel {
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
 
-
 	/**
-	 * Setzt die Angestellten-Nr.
-	 * Die Nummer muss größer 0 sein, ansonsten wird eine Exception an den Aufrufer weitergeleitet.
+	 * Setzt die Angestellten-Nr. Die Nummer muss größer 0 sein, ansonsten wird eine
+	 * Exception an den Aufrufer weitergeleitet.
 	 * 
-	 * @param  nr		             Angestellten-Nr
+	 * @param nr Angestellten-Nr
 	 * @throws NumberFormatException Fehlerhafte Eingabe
 	 */
 	public void setNr(int nr) throws NumberFormatException {
@@ -237,7 +222,6 @@ public class AngestellterModel extends AbstractModel {
 			throw new NumberFormatException();
 		}
 	}
-
 
 	/**
 	 * Setzt die Telefonnummer des Angestellten.
@@ -251,7 +235,6 @@ public class AngestellterModel extends AbstractModel {
 		setIsGeil();
 	}
 
-
 	/**
 	 * Setzt den Vornamen des Angestellten
 	 * 
@@ -262,10 +245,10 @@ public class AngestellterModel extends AbstractModel {
 		setChanged();
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
-	
-	
+
 	/**
-	 *  Setzt die Gehaltsgruppe des Angestellten.
+	 * Setzt die Gehaltsgruppe des Angestellten.
+	 * 
 	 * @param gehaltsGruppe
 	 */
 	public void setGehaltsgruppe(int gehaltsGruppe) {
@@ -273,10 +256,10 @@ public class AngestellterModel extends AbstractModel {
 		setChanged();
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
-	
-	
+
 	/**
 	 * Setzt die Erfahrungsstufe des Angestellten.
+	 * 
 	 * @param erfahrungsStufe
 	 */
 	public void setErfahrungsstufe(int erfahrungsStufe) {
@@ -284,22 +267,22 @@ public class AngestellterModel extends AbstractModel {
 		setChanged();
 		this.notifyObservers(new AngestellterDataEvent(EventType.UPDATE, this));
 	}
-	
-	
+
 	/**
-	 *  Liefert den Index der Gehaltsliste des Angestellten.
+	 * Liefert den Index der Gehaltsliste des Angestellten.
+	 * 
 	 * @param gehaltsGruppe
 	 * @param erfahrungsStufe
 	 * @return
-	 */	 
+	 */
 	public int getGehaltIndex(int gehaltsGruppe, int erfahrungsStufe) {
-			
+
 		this.gehaltsGruppe = gehaltsGruppe;
 		this.erfahrungsStufe = erfahrungsStufe;
 		int i = 0;
-		
-		if(gehaltsGruppe == 1) {
-			switch(erfahrungsStufe) {
+
+		if (gehaltsGruppe == 1) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 0;
 				break;
@@ -320,9 +303,9 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			}
 		}
-		
-		else if(gehaltsGruppe == 2) {
-			switch(erfahrungsStufe) {
+
+		else if (gehaltsGruppe == 2) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 6;
 				break;
@@ -343,9 +326,9 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			}
 		}
-		
-		else if(gehaltsGruppe == 3) {
-			switch(erfahrungsStufe) {
+
+		else if (gehaltsGruppe == 3) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 12;
 				break;
@@ -363,12 +346,12 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			case 6:
 				i = 17;
-				break;		
+				break;
 			}
 		}
-		
-		else if(gehaltsGruppe == 4) {
-			switch(erfahrungsStufe) {
+
+		else if (gehaltsGruppe == 4) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 18;
 				break;
@@ -389,9 +372,9 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			}
 		}
-		
-		else if(gehaltsGruppe == 5) {
-			switch(erfahrungsStufe) {
+
+		else if (gehaltsGruppe == 5) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 24;
 				break;
@@ -412,9 +395,9 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			}
 		}
-		
-		else if(gehaltsGruppe == 6) {
-			switch(erfahrungsStufe) {
+
+		else if (gehaltsGruppe == 6) {
+			switch (erfahrungsStufe) {
 			case 1:
 				i = 30;
 				break;
@@ -435,11 +418,10 @@ public class AngestellterModel extends AbstractModel {
 				break;
 			}
 		}
-		
+
 		return i;
 	}
-	
-	
+
 	/**
 	 * Setzt das Gehalt des Angestellten
 	 * 
@@ -449,7 +431,6 @@ public class AngestellterModel extends AbstractModel {
 		this.gehalt = gehalt;
 	}
 
-	
 	/**
 	 * Liefert das Gehalt des Angestellten
 	 * 
@@ -458,62 +439,62 @@ public class AngestellterModel extends AbstractModel {
 	public float getGehalt() {
 		return gehalt;
 	}
-	
-	
+
 	/**
 	 * Setzt unter bestimmten Vorraussetzungen den boolean Wert isGeil auf true ;)
 	 * 
 	 */
-	private void setIsGeil(){
-		
+	private void setIsGeil() {
+
 		isGeil = false;
 		isGeil2 = false;
-		
-		if(vorname.equals("Dirk") == true && nachname.equals("Tellmann") == true && geburtsdatum.equals("23.05.1989") && telefon.equals("01738943162") && geschlecht == 0) {
+
+		if (vorname.equals("Dirk") == true && nachname.equals("Tellmann") == true && geburtsdatum.equals("23.05.1989")
+				&& telefon.equals("01738943162") && geschlecht == 0) {
 			isGeil = true;
 		}
-		if(vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("23.12.1995") && telefon.equals("015256187832") && geschlecht == 0) {
+		if (vorname.equals("Kevin") == true && nachname.equals("Klein") == true && geburtsdatum.equals("23.12.1995")
+				&& telefon.equals("015256187832") && geschlecht == 0) {
 			isGeil = true;
 		}
-		if(vorname.equals("Jens") == true && nachname.equals("Sterk") == true && geburtsdatum.equals("20.07.1985") && geschlecht == 0) {
+		if (vorname.equals("Jens") == true && nachname.equals("Sterk") == true && geburtsdatum.equals("20.07.1985")
+				&& geschlecht == 0) {
 			isGeil2 = true;
 		}
 	}
-	
-	
+
 	/**
-	 * Angestellter-Objekte werden anhand ihres Familiennamens
-	 * sortiert, sofern dies benötigt wird.
+	 * Angestellter-Objekte werden anhand ihres Familiennamens sortiert, sofern dies
+	 * benötigt wird.
 	 * 
 	 * @param amodel Zu vergleichendes Objekt, muss vom Typ AngestellterModel sein.
 	 * 
-	 * @return 0: kein Unterscheid (feststellbar)
-	 *         1: Aktuelles Objekt ist unterwertig
-	 *        -1: Übergebenes Objekt ist unterwertig
+	 * @return 0: kein Unterscheid (feststellbar) 1: Aktuelles Objekt ist
+	 *         unterwertig -1: Übergebenes Objekt ist unterwertig
 	 */
 	@Override
 	public int compareTo(AbstractModel amodel) {
-		
+
 		if (!(amodel instanceof AngestellterModel)) {
 			return 0;
 		}
-		
+
 		AngestellterModel m = (AngestellterModel) amodel;
-		
+
 		if (m.getNachname() == null && this.getNachname() == null) {
 			return 0;
 		}
-		
+
 		if (this.getNachname() == null) {
 			return 1;
 		}
-		
+
 		if (m.getNachname() == null) {
 			return -1;
 		}
-		
-		//compareTo-Methode der String-Klasse nutzen! Familienname ist String.
+
+		// compareTo-Methode der String-Klasse nutzen! Familienname ist String.
 		return this.getNachname().compareTo(m.getNachname());
 	}
-	
+
 }
